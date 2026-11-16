@@ -31,3 +31,12 @@
 .site-content {
   min-height: 0;
 }
+
+.site-footer {
+  border-top: 4px solid black;
+  font-weight: 600;
+}
+
+.site-footer a {
+  color: black;
+}
