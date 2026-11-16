@@ -1,9 +1,6 @@
 const CASES_URL = process.env.NEXT_PUBLIC_CASES_URL || "https://api.feminizidmap.org/cases";
 const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || "https://api.feminizidmap.org";
 
-// Strapi's default locale is "de"; the site is English, so localized types are requested explicitly.
-const LOCALE = "en";
-
 export async function getCases() {
   const response = await fetch(CASES_URL);
 
@@ -32,46 +29,46 @@ async function strapiGet(path, { allowNotFound = false } = {}) {
 }
 
 // Single type with `title` + blocks `content` (home, about, faq, imprint, ...).
-async function getPage(endpoint) {
-  const data = await strapiGet(`${endpoint}?locale=${LOCALE}`);
+async function getPage(endpoint, locale) {
+  const data = await strapiGet(`${endpoint}?locale=${locale}`);
 
   return data ? { title: data.title ?? null, content: data.content ?? null } : null;
 }
 
-export async function getHome() {
-  return (await getPage("/api/home"))?.content ?? null;
+export async function getHome(locale) {
+  return (await getPage("/api/home", locale))?.content ?? null;
 }
 
-export async function getAbout() {
-  return (await getPage("/api/about"))?.content ?? null;
+export async function getAbout(locale) {
+  return (await getPage("/api/about", locale))?.content ?? null;
 }
 
-export function getFaq() {
-  return getPage("/api/faq");
+export function getFaq(locale) {
+  return getPage("/api/faq", locale);
 }
 
-export function getImprint() {
-  return getPage("/api/imprint");
+export function getImprint(locale) {
+  return getPage("/api/imprint", locale);
 }
 
-export function getDataprotection() {
-  return getPage("/api/dataprotection");
+export function getDataprotection(locale) {
+  return getPage("/api/dataprotection", locale);
 }
 
-export async function getReports() {
-  return (await strapiGet(`/api/reports?locale=${LOCALE}&sort=date:desc&pagination[pageSize]=100`)) ?? [];
+export async function getReports(locale) {
+  return (await strapiGet(`/api/reports?locale=${locale}&sort=date:desc&pagination[pageSize]=100`)) ?? [];
 }
 
-export function getReport(documentId) {
-  return strapiGet(`/api/reports/${documentId}?locale=${LOCALE}`, { allowNotFound: true });
+export function getReport(documentId, locale) {
+  return strapiGet(`/api/reports/${documentId}?locale=${locale}`, { allowNotFound: true });
 }
 
-export async function getTeamMembers() {
-  return (await strapiGet(`/api/team-members?locale=${LOCALE}&sort=name:asc&pagination[pageSize]=100`)) ?? [];
+export async function getTeamMembers(locale) {
+  return (await strapiGet(`/api/team-members?locale=${locale}&sort=name:asc&pagination[pageSize]=100`)) ?? [];
 }
 
-export async function getEvents() {
-  return (await strapiGet(`/api/event-items?locale=${LOCALE}&populate=*&sort=start_date:desc&pagination[pageSize]=100`)) ?? [];
+export async function getEvents(locale) {
+  return (await strapiGet(`/api/event-items?locale=${locale}&populate=*&sort=start_date:desc&pagination[pageSize]=100`)) ?? [];
 }
 
 // Publications are not localized.

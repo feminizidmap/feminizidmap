@@ -21,7 +21,7 @@ The old `NEXT_PUBLIC_API_URL` (base URL only) is no longer read.
 
 ## Build notes
 
-- `yarn build` fetches the dataset (`/database` is prerendered), so the endpoint must be reachable from the build machine.
+- `yarn build` fetches the dataset (`/de/database` and `/en/database` are prerendered), so the endpoint must be reachable from the build machine.
 - `basePath` / `NEXT_PUBLIC_BASE_PATH` is set by the GitHub Pages workflow (`.github/workflows/nextjs.yml`).
   For other hosts, serve `out/` from the domain root or set `basePath` in `next.config.mjs`.
 - The GitHub Pages workflow doesn't set `NEXT_PUBLIC_CASES_URL`, so it uses the default.

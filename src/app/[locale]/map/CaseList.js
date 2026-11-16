@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import CaseDetails from "../CaseDetails";
+import CaseDetails from "@/app/CaseDetails";
 import { FunnelIcon } from "./MapIcons";
 
 export const LIST_PAGE_SIZE = 40;

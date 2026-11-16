@@ -40,3 +40,19 @@
 .site-footer a {
   color: black;
 }
+
+.locale-switch {
+  display: flex;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.locale-link {
+  color: black;
+  text-decoration: none;
+}
+
+.locale-link.active {
+  color: rgb(181, 35, 243);
+  text-decoration: underline;
+}

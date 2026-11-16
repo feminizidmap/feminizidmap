@@ -1,6 +1,7 @@
-import "../cards.css";
-import { getEvents } from "../../services/api";
-import { formatDate } from "../caseFormat";
+import "@/app/cards.css";
+import { getEvents } from "@/services/api";
+import { formatDate } from "@/app/caseFormat";
+import { getDictionary } from "@/i18n";
 
 function dateLabel(event) {
   const start = formatDate(event.start_date);
@@ -37,11 +38,12 @@ function EventList({ events }) {
   </ul>;
 }
 
-export default async function Page() {
+export default async function Page({ params: { locale } }) {
+  const t = getDictionary(locale).events;
   let events = [];
 
   try {
-    events = await getEvents();
+    events = await getEvents(locale);
   } catch (error) {
     console.error("Failed to load events", error);
   }
@@ -54,14 +56,14 @@ export default async function Page() {
   const past = events.filter((event) => !isUpcoming(event));
 
   return <main>
-    <h1 className="purple display-1 fw-bold">Events</h1>
+    <h1 className="purple display-1 fw-bold">{t.title}</h1>
     <section className="mb-5">
-      <h2 className="purple fw-bold">Upcoming events</h2>
-      {upcoming.length === 0 ? <p className="fs-4">No upcoming events.</p> : <EventList events={upcoming} />}
+      <h2 className="purple fw-bold">{t.upcoming}</h2>
+      {upcoming.length === 0 ? <p className="fs-4">{t.noUpcoming}</p> : <EventList events={upcoming} />}
     </section>
     {past.length > 0 && (
       <section>
-        <h2 className="purple fw-bold">Past events</h2>
+        <h2 className="purple fw-bold">{t.past}</h2>
         <EventList events={past} />
       </section>
     )}

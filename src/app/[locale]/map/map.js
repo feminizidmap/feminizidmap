@@ -12,7 +12,7 @@ import { ResetViewIcon } from "./MapIcons";
 import MobileCaseBar from "./MobileCaseBar";
 import { FilterChipBar, MobileFilterSheet } from "./MobileFilters";
 import useMediaQuery from "./useMediaQuery";
-import { getCases } from "../../services/api";
+import { getCases } from "@/services/api";
 import {
   GENDER_OPTIONS,
   facetLabels,
