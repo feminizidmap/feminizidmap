@@ -1,4 +1,4 @@
-import { STATES, genderOptionLabel, getStateCode, normalizeGender } from "./map/filterUtils";
+import { STATES, genderOptionLabel, getStateCode, normalizeGender } from "@/app/[locale]/map/filterUtils";
 
 // API values carry trailing spaces ("Familiär ") and form hints ("Stichwaffen (bitte angeben)").
 export function clean(value) {

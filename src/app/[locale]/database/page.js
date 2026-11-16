@@ -1,6 +1,6 @@
 import "./page.css";
 import CasesList from "./CasesList";
-import { getCases } from "../../services/api";
+import { getCases } from "@/services/api";
 
 async function getData() {
   return getCases();

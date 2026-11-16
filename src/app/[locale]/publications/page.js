@@ -1,5 +1,6 @@
-import "../cards.css";
-import { getPublications } from "../../services/api";
+import "@/app/cards.css";
+import { getPublications } from "@/services/api";
+import { getDictionary } from "@/i18n";
 
 function PublicationList({ items }) {
   return <ul className="list-unstyled card-list">
@@ -27,7 +28,8 @@ function PublicationList({ items }) {
   </ul>;
 }
 
-export default async function Page() {
+export default async function Page({ params: { locale } }) {
+  const t = getDictionary(locale).publications;
   let publications = [];
 
   try {
@@ -40,17 +42,17 @@ export default async function Page() {
   const further = publications.filter((item) => !item.project_related);
 
   return <main>
-    <h1 className="purple display-1 fw-bold">Publications</h1>
-    {publications.length === 0 && <p className="fs-3">No publications available yet.</p>}
+    <h1 className="purple display-1 fw-bold">{t.title}</h1>
+    {publications.length === 0 && <p className="fs-3">{t.empty}</p>}
     {project.length > 0 && (
       <section className="mb-5">
-        <h2 className="purple fw-bold">Project publications</h2>
+        <h2 className="purple fw-bold">{t.project}</h2>
         <PublicationList items={project} />
       </section>
     )}
     {further.length > 0 && (
       <section>
-        <h2 className="purple fw-bold">Further contributions</h2>
+        <h2 className="purple fw-bold">{t.further}</h2>
         <PublicationList items={further} />
       </section>
     )}

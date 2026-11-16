@@ -1,11 +1,13 @@
-import "../cards.css";
-import { getTeamMembers } from "../../services/api";
+import "@/app/cards.css";
+import { getTeamMembers } from "@/services/api";
+import { getDictionary } from "@/i18n";
 
-export default async function Page() {
+export default async function Page({ params: { locale } }) {
+  const t = getDictionary(locale).team;
   let members = [];
 
   try {
-    members = await getTeamMembers();
+    members = await getTeamMembers(locale);
   } catch (error) {
     console.error("Failed to load team members", error);
   }
@@ -14,9 +16,9 @@ export default async function Page() {
   const previous = members.filter((member) => !member.active);
 
   return <main>
-    <h1 className="purple display-1 fw-bold">Team</h1>
+    <h1 className="purple display-1 fw-bold">{t.title}</h1>
     {active.length === 0 ? (
-      <p className="fs-3">Team information is not available right now.</p>
+      <p className="fs-3">{t.unavailable}</p>
     ) : (
       <ul className="list-unstyled card-grid">
         {active.map((member) => (
@@ -29,7 +31,7 @@ export default async function Page() {
     )}
     {previous.length > 0 && (
       <section className="mt-5">
-        <h2 className="purple fw-bold">We want to thank our previous collaborators</h2>
+        <h2 className="purple fw-bold">{t.thanks}</h2>
         <p className="fs-4">{previous.map((member) => member.name).join(" · ")}</p>
       </section>
     )}

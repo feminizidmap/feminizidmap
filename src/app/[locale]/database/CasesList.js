@@ -1,7 +1,7 @@
 "use client"
 
 import { useMemo } from 'react';
-import CaseDetails from '../CaseDetails';
+import CaseDetails from "@/app/CaseDetails";
 
 function sortCasesByDateDesc(caseList) {
   return [...caseList].sort((a, b) => {

@@ -1,21 +1,24 @@
 import BlocksContent from "./BlocksContent";
+import { getDictionary } from "@/i18n";
 
 // Server component for Strapi single types with `title` + blocks `content`.
-export default async function StrapiPage({ load, fallbackTitle }) {
+// `pageKey` selects the fallback title from the dictionary (`pages.<pageKey>`).
+export default async function StrapiPage({ load, locale, pageKey }) {
+  const t = getDictionary(locale);
   let page = null;
 
   try {
-    page = await load();
+    page = await load(locale);
   } catch (error) {
-    console.error(`Failed to load "${fallbackTitle}" content`, error);
+    console.error(`Failed to load "${pageKey}" content (${locale})`, error);
   }
 
   return <main>
-    <h1 className="purple display-1 fw-bold">{page?.title || fallbackTitle}</h1>
+    <h1 className="purple display-1 fw-bold">{page?.title || t.pages[pageKey]}</h1>
     {page?.content ? (
       <BlocksContent content={page.content} />
     ) : (
-      <p className="fs-3">This content is not available right now.</p>
+      <p className="fs-3">{t.common.unavailable}</p>
     )}
   </main>
 }
