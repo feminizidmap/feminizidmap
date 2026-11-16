@@ -12,10 +12,8 @@ const dictionaries = {
       home: "START",
       about: "ÜBER UNS",
       map: "KARTE",
-      reports: "BERICHTE",
       events: "VERANSTALTUNGEN",
-      publications: "VERÖFFENTLICHUNGEN",
-      team: "TEAM",
+      publications: "PUBLIKATIONEN",
       faq: "FAQ",
       language: "Sprache",
     },
@@ -39,12 +37,9 @@ const dictionaries = {
       ],
     },
     about: {
+      title: "Über uns",
       fallbackText:
         "Wir dokumentieren alle Femi(ni)zide und Tötungsdelikte an Frauen* sowie Mädchen* in Deutschland. Der Begriff Femi(ni)zid bezieht sich auf Tötungen von Frauen* und Mädchen* durch Männer. Diese finden im Kontext hierarchischer Machtverhältnisse statt, in denen die getöteten Subjekte – Frauen*/Mädchen* – eine untergeordnete Position innerhalb der Machtstruktur einnehmen. Es geht nicht um eine Tötung nach Geschlecht, also eine rein oberflächliche terminologische Differenzierung zwischen Tötungen von Männern einerseits und Femi(ni)ziden an Frauen* andererseits. Wir erkennen an, dass unsere Arbeit von Feminicidio.net inspiriert und unterstützt wurde.",
-    },
-    reports: {
-      title: "Berichte",
-      empty: "Noch keine Berichte verfügbar.",
     },
     team: {
       title: "Team",
@@ -58,7 +53,10 @@ const dictionaries = {
       noUpcoming: "Keine zukünftigen Veranstaltungen geplant.",
     },
     publications: {
-      title: "Veröffentlichungen",
+      title: "Publikationen",
+      reports: "Reports",
+      reportsEmpty: "Noch keine Reports verfügbar.",
+      other: "Veröffentlichungen",
       project: "Gemeinsame Veröffentlichungen des Teams",
       further: "Weitere Veröffentlichungen",
       empty: "Noch keine Veröffentlichungen verfügbar.",
@@ -72,10 +70,8 @@ const dictionaries = {
       home: "HOME",
       about: "ABOUT",
       map: "MAP",
-      reports: "REPORTS",
       events: "EVENTS",
       publications: "PUBLICATIONS",
-      team: "TEAM",
       faq: "FAQ",
       language: "Language",
     },
@@ -99,12 +95,9 @@ const dictionaries = {
       ],
     },
     about: {
+      title: "About us",
       fallbackText:
         "We document all femi(ni)cides and killings of women* and girls* in Germany. Femi(ni)cide is intended to apply to certain killings of women* and girls* by men, those which occur in a context of a hierarchical power relationships where the subjects, women*/girls*, are placed on one side of that power structure, that of the subordinated; it is not meant to simply differentiate killings by the sex of the victims, distinguishing between homicides for males and femi(ni)cides for females. You can find more information on these concepts below. We acknowledge that we were inspired and helped by the work of Feminicidio.net.",
-    },
-    reports: {
-      title: "Reports",
-      empty: "No reports available yet.",
     },
     team: {
       title: "Team",
@@ -119,6 +112,9 @@ const dictionaries = {
     },
     publications: {
       title: "Publications",
+      reports: "Reports",
+      reportsEmpty: "No reports available yet.",
+      other: "Other publications",
       project: "Project publications",
       further: "Further contributions",
       empty: "No publications available yet.",
@@ -130,7 +126,7 @@ export function getDictionary(locale) {
   return dictionaries[locale] ?? dictionaries[defaultLocale];
 }
 
-// "/team" -> "/de/team"; "/" -> "/de"
+// "/faq" -> "/de/faq"; "/" -> "/de"
 export function localePath(locale, path = "/") {
   return path === "/" ? `/${locale}` : `/${locale}${path}`;
 }

@@ -9,12 +9,10 @@ import { getDictionary, localePath, locales, switchLocalePath } from '@/i18n';
 
 const NAV_ITEMS = [
   ["home", "/"],
-  ["about", "/about"],
-  ["map", "/map"],
-  ["reports", "/reports"],
-  ["events", "/events"],
   ["publications", "/publications"],
-  ["team", "/team"],
+  ["map", "/map"],
+  ["events", "/events"],
+  ["about", "/about"],
   ["faq", "/faq"],
 ];
 
