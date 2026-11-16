@@ -23,8 +23,10 @@ export default function Navigation() {
             <Link onClick={() => setExpanded(false)} className="nav-link fs-2" href="/about">ABOUT</Link>
             <Link onClick={() => setExpanded(false)} className="nav-link fs-2" href="/map">MAP</Link>
             <Link onClick={() => setExpanded(false)} className="nav-link fs-2" href="/reports">REPORTS</Link>
-            <Link onClick={() => setExpanded(false)} className="nav-link fs-2" href="/">TEAM</Link>
-            <Link onClick={() => setExpanded(false)} className="nav-link fs-2" href="/">FAQ</Link>
+            <Link onClick={() => setExpanded(false)} className="nav-link fs-2" href="/events">EVENTS</Link>
+            <Link onClick={() => setExpanded(false)} className="nav-link fs-2" href="/publications">PUBLICATIONS</Link>
+            <Link onClick={() => setExpanded(false)} className="nav-link fs-2" href="/team">TEAM</Link>
+            <Link onClick={() => setExpanded(false)} className="nav-link fs-2" href="/faq">FAQ</Link>
           </Nav>
         </NavbarCollapse>
       </Container>

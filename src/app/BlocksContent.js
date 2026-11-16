@@ -20,5 +20,8 @@ const blocks = {
 };
 
 export default function BlocksContent({ content }) {
+  // Empty rich-text fields come back as null, which BlocksRenderer cannot handle.
+  if (!Array.isArray(content) || content.length === 0) return null;
+
   return <BlocksRenderer content={content} blocks={blocks} />;
 }

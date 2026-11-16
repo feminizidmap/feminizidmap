@@ -4,6 +4,7 @@ import { Container } from "react-bootstrap";
 import { usePathname } from "next/navigation";
 import Navigation from "./Navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function LayoutShell({ children }) {
   const pathname = usePathname();
@@ -28,6 +29,13 @@ export default function LayoutShell({ children }) {
       <Container className="d-flex flex-column flex-grow-1 my-4 site-content">
         {children}
       </Container>
+      {!isFixedHeightRoute && (
+        <Container as="footer" className="site-footer py-3 mb-3">
+          <Link href="/imprint">Imprint</Link>
+          <span aria-hidden="true"> · </span>
+          <Link href="/dataprotection">Data protection</Link>
+        </Container>
+      )}
     </div>
   );
 }
