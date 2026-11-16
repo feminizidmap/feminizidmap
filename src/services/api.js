@@ -39,8 +39,8 @@ export async function getHome(locale) {
   return (await getPage("/api/home", locale))?.content ?? null;
 }
 
-export async function getAbout(locale) {
-  return (await getPage("/api/about", locale))?.content ?? null;
+export function getAbout(locale) {
+  return getPage("/api/about", locale);
 }
 
 export function getFaq(locale) {

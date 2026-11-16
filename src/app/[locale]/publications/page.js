@@ -1,6 +1,24 @@
+import Link from "next/link";
 import "@/app/cards.css";
-import { getPublications } from "@/services/api";
-import { getDictionary } from "@/i18n";
+import { getPublications, getReports } from "@/services/api";
+import { formatDate, teaser } from "@/app/caseFormat";
+import { getDictionary, localePath } from "@/i18n";
+
+function ReportList({ reports, locale }) {
+  return <ul className="list-unstyled card-list">
+    {reports.map((report) => (
+      <li key={report.documentId} className="card-item">
+        <div className="card-meta">
+          <span className="card-badge">{formatDate(report.date)}</span>
+        </div>
+        <Link href={localePath(locale, `/reports/${report.documentId}`)} className="purple fs-3 fw-bold text-decoration-none card-title">
+          {report.title}
+        </Link>
+        {teaser(report.content) && <p className="fs-5 card-text">{teaser(report.content)}</p>}
+      </li>
+    ))}
+  </ul>;
+}
 
 function PublicationList({ items }) {
   return <ul className="list-unstyled card-list">
@@ -28,33 +46,42 @@ function PublicationList({ items }) {
   </ul>;
 }
 
+function settledValue(result, label) {
+  if (result.status === "fulfilled") return result.value;
+  console.error(`Failed to load ${label}`, result.reason);
+  return [];
+}
+
 export default async function Page({ params: { locale } }) {
   const t = getDictionary(locale).publications;
-  let publications = [];
-
-  try {
-    publications = await getPublications();
-  } catch (error) {
-    console.error("Failed to load publications", error);
-  }
+  const [reportsResult, publicationsResult] = await Promise.allSettled([getReports(locale), getPublications()]);
+  const reports = settledValue(reportsResult, "reports");
+  const publications = settledValue(publicationsResult, "publications");
 
   const project = publications.filter((item) => item.project_related);
   const further = publications.filter((item) => !item.project_related);
 
   return <main>
     <h1 className="purple display-1 fw-bold">{t.title}</h1>
-    {publications.length === 0 && <p className="fs-3">{t.empty}</p>}
-    {project.length > 0 && (
-      <section className="mb-5">
-        <h2 className="purple fw-bold">{t.project}</h2>
-        <PublicationList items={project} />
-      </section>
-    )}
-    {further.length > 0 && (
-      <section>
-        <h2 className="purple fw-bold">{t.further}</h2>
-        <PublicationList items={further} />
-      </section>
-    )}
+    <section id="reports" className="mb-5">
+      <h2 className="purple fw-bold">{t.reports}</h2>
+      {reports.length === 0 ? <p className="fs-4">{t.reportsEmpty}</p> : <ReportList reports={reports} locale={locale} />}
+    </section>
+    <section id="publications">
+      <h2 className="purple fw-bold">{t.other}</h2>
+      {publications.length === 0 && <p className="fs-4">{t.empty}</p>}
+      {project.length > 0 && (
+        <section className="mb-4">
+          <h3 className="purple fw-bold">{t.project}</h3>
+          <PublicationList items={project} />
+        </section>
+      )}
+      {further.length > 0 && (
+        <section>
+          <h3 className="purple fw-bold">{t.further}</h3>
+          <PublicationList items={further} />
+        </section>
+      )}
+    </section>
   </main>
 }
