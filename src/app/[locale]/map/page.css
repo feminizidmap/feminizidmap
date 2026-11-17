@@ -5,13 +5,13 @@
   min-height: 0;
 }
 
+/* Desktop: once the header is scrolled away, map and case list fill the screen. */
 @media (min-width: 992px) {
   .map-page-main {
     flex: none;
-    height: 900px;
-    max-height: calc(100vh - 80px);
-    max-height: calc(100dvh - 80px);
-    min-height: 600px;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 720px;
   }
 }
 
