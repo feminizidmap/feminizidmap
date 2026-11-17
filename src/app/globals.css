@@ -29,6 +29,9 @@
   --space-section-lg: 128px;
   --gutter: 96px;
   --rail: 56px;
+  /* Content column: bands stay full-bleed, their content is centred at this width. */
+  --content-max: 1200px;
+  --pad-x: max(var(--gutter), calc((100% - var(--content-max)) / 2));
 
   --bs-body-font-family: var(--font-sans);
   --bs-body-color: var(--ink);
@@ -154,7 +157,7 @@ h1, h2, h3, h4 {
 }
 
 .page-body {
-  padding: 0 var(--gutter) var(--space-section-lg);
+  padding: 0 var(--pad-x) var(--space-section-lg);
 }
 
 @media (max-width: 991.98px) {
@@ -168,7 +171,7 @@ h1, h2, h3, h4 {
   display: flex;
   flex-direction: column;
   gap: var(--space-section);
-  padding: var(--space-7) var(--gutter) var(--space-10);
+  padding: var(--space-7) var(--pad-x) var(--space-10);
   background: #2a0a33 url("/hero-hands.jpg") center 35% / cover no-repeat;
   color: #fff;
 }
@@ -380,7 +383,7 @@ h1, h2, h3, h4 {
   display: flex;
   flex-direction: column;
   gap: 72px;
-  padding: 96px var(--gutter) var(--space-8);
+  padding: 96px var(--pad-x) var(--space-8);
   background: #000;
   color: #fff;
 }

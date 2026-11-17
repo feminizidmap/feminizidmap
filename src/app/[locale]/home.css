@@ -1,7 +1,6 @@
 .home-intro,
 .home-section {
-  max-width: 1180px;
-  padding: var(--space-section) var(--gutter) 0;
+  padding: var(--space-section) var(--pad-x) 0;
 }
 
 .home-section-last {
@@ -100,7 +99,7 @@
 
 .home-map {
   margin-top: var(--space-section);
-  padding: 96px var(--gutter);
+  padding: 96px var(--pad-x);
   background: #000;
   color: #fff;
 }
@@ -209,6 +208,6 @@
   }
 
   .home-map {
-    padding: var(--space-9) var(--gutter);
+    padding: var(--space-9) var(--pad-x);
   }
 }
