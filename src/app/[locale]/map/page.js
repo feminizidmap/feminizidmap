@@ -6,7 +6,7 @@ import "./page.css";
 export default function Page({ params: { locale } }) {
   return (
     <>
-    <PageHeader locale={locale} variant="compact" title={getDictionary(locale).map.title} />
+    <PageHeader locale={locale} variant="map" title={getDictionary(locale).map.title} lead={getDictionary(locale).map.lead} />
     <main className="map-page-main">
       <Map />
     </main>

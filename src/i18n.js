@@ -81,6 +81,7 @@ const dictionaries = {
     },
     map: {
       title: "Karte der Fälle",
+      lead: "Alle dokumentierten Fälle auf einer Karte – mit Filtern und Details zu jedem Fall.",
     },
     events: {
       title: "Veranstaltungen",
@@ -185,6 +186,7 @@ const dictionaries = {
     },
     map: {
       title: "Map of cases",
+      lead: "All documented cases on one map – with filters and details on every case.",
     },
     events: {
       title: "Events",

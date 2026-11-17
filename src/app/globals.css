@@ -100,10 +100,14 @@ h1, h2, h3, h4 {
   min-height: 100dvh;
 }
 
-.site-shell.site-shell-fixed {
-  height: 100vh;
-  height: 100dvh;
-  overflow: hidden;
+/* Map route: on phones the map is a full-screen app; on desktop the page
+   scrolls, with the full header above a fixed-height map. */
+@media (max-width: 991.98px) {
+  .site-shell.site-shell-fixed {
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+  }
 }
 
 .site-rail {
@@ -180,6 +184,19 @@ h1, h2, h3, h4 {
   gap: 96px;
   padding-bottom: var(--space-section);
   background-position: center;
+}
+
+/* Phones: the map gets a slim black bar instead of the illustrated header. */
+@media (max-width: 991.98px) {
+  .page-header-map {
+    gap: 0;
+    padding: var(--space-3) var(--space-3) var(--space-3) 20px;
+    background: #000;
+  }
+
+  .page-header-map .page-header-text {
+    display: none;
+  }
 }
 
 .page-header-compact {
