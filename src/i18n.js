@@ -68,9 +68,13 @@ const dictionaries = {
     events: {
       title: "Veranstaltungen",
       lead: "Vorträge, Workshops und Diskussionen, bei denen wir unsere Daten und unsere Arbeit vorstellen.",
-      upcoming: "Nächste Veranstaltungen",
+      upcoming: "Demnächst",
       past: "Vergangene Veranstaltungen",
       noUpcoming: "Keine zukünftigen Veranstaltungen geplant.",
+      oneDate: "1 Termin",
+      dates: "Termine",
+      years: "Jahre",
+      eventPage: "Zur Veranstaltungsseite",
     },
     publications: {
       title: "Publikationen",
@@ -147,9 +151,13 @@ const dictionaries = {
     events: {
       title: "Events",
       lead: "Talks, workshops and discussions where we present our data and our work.",
-      upcoming: "Upcoming events",
+      upcoming: "Upcoming",
       past: "Past events",
       noUpcoming: "No upcoming events.",
+      oneDate: "1 date",
+      dates: "dates",
+      years: "Years",
+      eventPage: "Go to event page",
     },
     publications: {
       title: "Publications",
