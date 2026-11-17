@@ -16,11 +16,11 @@ export default async function StrapiPage({ load, locale, pageKey }) {
 
   return <>
     <PageHeader locale={locale} title={page?.title || t.pages[pageKey]} />
-    <main className="page-body">
+    <main className="page-body page-body-text">
       {page?.content ? (
         <BlocksContent content={page.content} />
       ) : (
-        <p className="fs-3">{t.common.unavailable}</p>
+        <p className="prose">{t.common.unavailable}</p>
       )}
     </main>
   </>

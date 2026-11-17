@@ -530,3 +530,288 @@ h1, h2, h3, h4 {
     gap: var(--space-8);
   }
 }
+
+/* ---------- Rich text (Strapi blocks) ---------- */
+.page-body-text {
+  padding-top: var(--space-section);
+}
+
+.prose {
+  max-width: 46em;
+  font-size: 18px;
+  line-height: 1.65;
+}
+
+.prose > * {
+  margin: 0;
+}
+
+.prose > * + * {
+  margin-top: var(--space-5);
+}
+
+.prose a {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.prose a:hover {
+  color: var(--plum);
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.2em;
+}
+
+/* Section headings: lots of room above, little below. */
+.prose > .prose-heading {
+  margin-top: var(--space-section);
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(32px, 3.6vw, 48px);
+  line-height: 1.1;
+}
+
+.prose > .prose-heading:first-child {
+  margin-top: 0;
+}
+
+.prose > .prose-heading + * {
+  margin-top: var(--space-5);
+}
+
+.prose > .prose-subheading {
+  margin-top: var(--space-8);
+  padding-bottom: var(--space-3);
+  border-bottom: 3px solid #000;
+}
+
+.prose > .prose-quote {
+  margin-top: 0;
+  padding: 20px 0 22px;
+  border-bottom: 1px solid #000;
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+.prose > .prose-subheading + .prose-quote {
+  margin-top: 0;
+}
+
+/* The about text opens with a larger lead paragraph. */
+.prose-about > p:first-child {
+  font-size: clamp(22px, 2vw, 28px);
+  line-height: 1.45;
+}
+
+/* ---------- Team ---------- */
+.team {
+  padding-top: var(--space-section-lg);
+}
+
+.team-title {
+  margin-bottom: var(--space-7);
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-7) var(--space-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.team-member {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-top: 20px;
+  border-top: 3px solid #000;
+}
+
+.team-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.team-name::before {
+  content: "";
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #000;
+}
+
+.team-bio {
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 16px;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.team-previous {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: var(--space-9);
+  padding: 28px var(--space-6);
+  background: var(--lilac);
+}
+
+.team-previous .t-kicker {
+  color: #5b2e6b;
+}
+
+.team-previous p {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+/* ---------- FAQ ---------- */
+.faq {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: var(--space-8);
+  max-width: 1180px;
+}
+
+.faq-count {
+  align-self: start;
+  margin: 0;
+  padding-top: 20px;
+  border-top: 3px solid #000;
+  color: var(--muted);
+}
+
+.faq-list {
+  border-top: 3px solid #000;
+}
+
+.faq-item {
+  border-bottom: 1px solid #000;
+}
+
+.faq-question {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
+  gap: var(--space-5);
+  align-items: center;
+  padding: 28px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.faq-question::-webkit-details-marker {
+  display: none;
+}
+
+.faq-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #000;
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.faq-question-text {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(26px, 2.6vw, 36px);
+  line-height: 1.15;
+}
+
+.faq-question:hover .faq-question-text {
+  color: var(--accent);
+}
+
+.faq-arrow {
+  justify-self: center;
+  transition: transform 0.2s;
+}
+
+.faq-item[open] .faq-arrow {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  padding: 0 0 var(--space-7) 68px;
+}
+
+.faq-contact {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-5);
+  max-width: 1180px;
+  margin-top: 96px;
+  padding: var(--space-6) var(--space-7);
+  border-top: 3px solid #000;
+  background: var(--lilac);
+}
+
+.faq-contact p {
+  margin: 6px 0 0;
+  color: var(--text-soft);
+  font-size: 17px;
+}
+
+.faq-contact-title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 1.1;
+}
+
+.faq-contact-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 52px;
+  padding: 0 var(--space-5);
+  background: #000;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.faq-contact-link:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+@media (max-width: 991.98px) {
+  .faq {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-4);
+  }
+
+  .faq-question {
+    grid-template-columns: 36px minmax(0, 1fr) 32px;
+    gap: var(--space-3);
+  }
+
+  .faq-number {
+    width: 36px;
+    height: 36px;
+  }
+
+  .faq-answer {
+    padding-left: 0;
+  }
+}

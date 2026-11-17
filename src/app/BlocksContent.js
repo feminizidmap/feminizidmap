@@ -2,26 +2,37 @@
 
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 
+// Typography for Strapi rich text. Spacing lives in .prose (globals.css), so
+// headings always get more room above than below.
 const blocks = {
   heading: ({ children, level }) => {
     const Tag = `h${level}`;
-    return <Tag className={level === 1 ? "purple display-1 fw-bold" : "purple fw-bold"}>{children}</Tag>;
+    const className = level <= 3 ? "prose-heading" : "prose-subheading t-kicker";
+    return <Tag className={className}>{children}</Tag>;
   },
-  paragraph: ({ children }) => <p className="fs-3">{children}</p>,
+  paragraph: ({ children }) => <p>{children}</p>,
+  quote: ({ children }) => <blockquote className="prose-quote">{children}</blockquote>,
   list: ({ children, format }) => {
     const Tag = format === "ordered" ? "ol" : "ul";
-    return <Tag className="fs-3">{children}</Tag>;
+    return <Tag>{children}</Tag>;
   },
-  link: ({ children, url }) => (
-    <a href={url} target="_blank" rel="noopener noreferrer">
-      {children}
-    </a>
-  ),
+  link: ({ children, url }) => {
+    const external = /^https?:/.test(url);
+    return (
+      <a href={url} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
+        {children}
+      </a>
+    );
+  },
 };
 
-export default function BlocksContent({ content }) {
+export default function BlocksContent({ content, className = "" }) {
   // Empty rich-text fields come back as null, which BlocksRenderer cannot handle.
   if (!Array.isArray(content) || content.length === 0) return null;
 
-  return <BlocksRenderer content={content} blocks={blocks} />;
+  return (
+    <div className={`prose ${className}`}>
+      <BlocksRenderer content={content} blocks={blocks} />
+    </div>
+  );
 }
