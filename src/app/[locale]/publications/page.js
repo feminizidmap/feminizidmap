@@ -1,4 +1,5 @@
 import Link from "next/link";
+import PageHeader from "@/app/PageHeader";
 import "@/app/cards.css";
 import { getPublications, getReports } from "@/services/api";
 import { formatDate, teaser } from "@/app/caseFormat";
@@ -61,8 +62,9 @@ export default async function Page({ params: { locale } }) {
   const project = publications.filter((item) => item.project_related);
   const further = publications.filter((item) => !item.project_related);
 
-  return <main>
-    <h1 className="purple display-1 fw-bold">{t.title}</h1>
+  return <>
+    <PageHeader locale={locale} title={t.title} lead={t.lead} />
+    <main className="page-body">
     <section id="reports" className="mb-5">
       <h2 className="purple fw-bold">{t.reports}</h2>
       {reports.length === 0 ? <p className="fs-4">{t.reportsEmpty}</p> : <ReportList reports={reports} locale={locale} />}
@@ -83,5 +85,6 @@ export default async function Page({ params: { locale } }) {
         </section>
       )}
     </section>
-  </main>
+    </main>
+  </>
 }
