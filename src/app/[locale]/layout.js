@@ -1,11 +1,14 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import { Inter } from "next/font/google";
+import { Alegreya, IBM_Plex_Mono, Schibsted_Grotesk } from "next/font/google";
 import { notFound } from "next/navigation";
 import "@/app/globals.css";
 import LayoutShell from "@/app/LayoutShell";
 import { getDictionary, locales } from "@/i18n";
 
-const inter = Inter({ subsets: ["latin"] });
+// Alegreya and Schibsted Grotesk stand in for the old site's Blanco (serif) and Stabil (grotesk).
+const serif = Alegreya({ subsets: ["latin"], style: ["normal", "italic"], variable: "--font-serif-face" });
+const sans = Schibsted_Grotesk({ subsets: ["latin"], variable: "--font-sans-face" });
+const mono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono-face" });
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -25,7 +28,7 @@ export default function RootLayout({ children, params: { locale } }) {
 
   return (
     <html lang={locale}>
-      <body className={inter.className}>
+      <body className={`${serif.variable} ${sans.variable} ${mono.variable}`}>
         <LayoutShell locale={locale}>{children}</LayoutShell>
       </body>
     </html>

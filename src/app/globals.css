@@ -1,5 +1,93 @@
+/* Design tokens: colours, type and spacing of the redesign (see "Typo & Abstände" in the design canvas). */
+:root {
+  --ink: #000;
+  --accent: #9f00ff;
+  --accent-ink: #7a00c4;
+  --plum: #63125e;
+  --lilac: #f5eef8;
+  --lilac-strong: #d9b3ff;
+  --muted: #5c5c66;
+  --text-soft: #2e2e36;
+  --rule: #e6e1e9;
+
+  --font-serif: var(--font-serif-face), Georgia, serif;
+  --font-sans: var(--font-sans-face), system-ui, sans-serif;
+  --font-mono: var(--font-mono-face), ui-monospace, monospace;
+
+  /* 8px scale; headings get far more room above than below. */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 40px;
+  --space-8: 48px;
+  --space-9: 64px;
+  --space-10: 80px;
+  --space-section: 112px;
+  --space-section-lg: 128px;
+  --gutter: 96px;
+  --rail: 56px;
+
+  --bs-body-font-family: var(--font-sans);
+  --bs-body-color: var(--ink);
+  --bs-link-color-rgb: 159, 0, 255;
+}
+
+@media (max-width: 991.98px) {
+  :root {
+    --gutter: 20px;
+    --space-section: 64px;
+    --space-section-lg: 80px;
+  }
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--ink);
+}
+
+/* Headings: serif, no Bootstrap margins; spacing comes from the section, not the heading. */
+h1, h2, h3, h4 {
+  margin: 0;
+}
+
+.t-display {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(52px, 7vw, 104px);
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+
+.t-section {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(36px, 4vw, 56px);
+  line-height: 1.05;
+}
+
+.t-kicker {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.t-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border: 1.5px solid #8a8a94;
+  color: #3d3d45;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .purple {
-  color: rgb(181, 35, 243);
+  color: var(--accent);
 }
 
 .navbar {
