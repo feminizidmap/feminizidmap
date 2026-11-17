@@ -1,4 +1,5 @@
 import "@/app/cards.css";
+import PageHeader from "@/app/PageHeader";
 import BlocksContent from "@/app/BlocksContent";
 import { getAbout, getTeamMembers } from "@/services/api";
 import { getDictionary } from "@/i18n";
@@ -40,9 +41,11 @@ export default async function Page({ params: { locale } }) {
   const about = aboutResult.status === "fulfilled" ? aboutResult.value : null;
   const members = teamResult.status === "fulfilled" ? teamResult.value : [];
 
-  return <main>
-    <h1 className="purple display-1 fw-bold">{about?.title || t.about.title}</h1>
+  return <>
+    <PageHeader locale={locale} title={about?.title || t.about.title} />
+    <main className="page-body">
     {about?.content ? <BlocksContent content={about.content} /> : <p className="fs-3">{t.about.fallbackText}</p>}
     <TeamSection members={members} t={t.team} />
-  </main>
+    </main>
+  </>
 }

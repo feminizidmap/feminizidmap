@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import PageHeader from "@/app/PageHeader";
 import BlocksContent from "@/app/BlocksContent";
 import { getReport, getReports } from "@/services/api";
 import { formatDate } from "@/app/caseFormat";
@@ -35,9 +36,10 @@ export default async function Page({ params }) {
     notFound();
   }
 
-  return <main>
-    <h1 className="purple display-1 fw-bold">{report.title}</h1>
-    <p className="fs-5">{formatDate(report.date)}</p>
-    <BlocksContent content={report.content} />
-  </main>
+  return <>
+    <PageHeader locale={params.locale} title={report.title} lead={formatDate(report.date)} />
+    <main className="page-body">
+      <BlocksContent content={report.content} />
+    </main>
+  </>
 }

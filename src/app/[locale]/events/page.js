@@ -1,4 +1,5 @@
 import "@/app/cards.css";
+import PageHeader from "@/app/PageHeader";
 import { getEvents } from "@/services/api";
 import { formatDate } from "@/app/caseFormat";
 import { getDictionary } from "@/i18n";
@@ -55,8 +56,9 @@ export default async function Page({ params: { locale } }) {
   const upcoming = events.filter(isUpcoming).reverse();
   const past = events.filter((event) => !isUpcoming(event));
 
-  return <main>
-    <h1 className="purple display-1 fw-bold">{t.title}</h1>
+  return <>
+    <PageHeader locale={locale} title={t.title} lead={t.lead} />
+    <main className="page-body">
     <section className="mb-5">
       <h2 className="purple fw-bold">{t.upcoming}</h2>
       {upcoming.length === 0 ? <p className="fs-4">{t.noUpcoming}</p> : <EventList events={upcoming} />}
@@ -67,5 +69,6 @@ export default async function Page({ params: { locale } }) {
         <EventList events={past} />
       </section>
     )}
-  </main>
+    </main>
+  </>
 }
