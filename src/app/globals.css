@@ -35,11 +35,56 @@
 
 .site-footer {
   border-top: 4px solid black;
-  font-weight: 600;
 }
 
 .site-footer a {
   color: black;
+}
+
+.site-footer-legal {
+  font-weight: 600;
+}
+
+.newsletter-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  max-width: 36rem;
+}
+
+.newsletter-input {
+  flex: 1 1 16rem;
+  min-width: 0;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #000;
+  border-radius: 0;
+  background: #fff;
+}
+
+.newsletter-input:focus {
+  outline: 2px solid rgb(181, 35, 243);
+  outline-offset: 1px;
+}
+
+.newsletter-button {
+  padding: 0.5rem 1.25rem;
+  border: 2px solid #000;
+  border-radius: 0;
+  background: #000;
+  color: #fff;
+  font-weight: 700;
+}
+
+.newsletter-button:hover,
+.newsletter-button:focus-visible {
+  border-color: rgb(181, 35, 243);
+  background: rgb(181, 35, 243);
+}
+
+.newsletter-note {
+  margin: 0.5rem 0 0;
+  color: #555;
+  font-size: 0.85rem;
 }
 
 .locale-switch {
