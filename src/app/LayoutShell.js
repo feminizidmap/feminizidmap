@@ -22,7 +22,8 @@ export default function LayoutShell({ children, locale }) {
       </aside>
       <div className="site-main">
         <div className="site-content">{children}</div>
-        {!isFixedHeightRoute && <SiteFooter locale={locale} />}
+        {/* On phones the map route is a full-screen app; globals.css hides the footer there. */}
+        <SiteFooter locale={locale} />
       </div>
     </div>
   );
