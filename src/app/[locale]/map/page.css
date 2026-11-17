@@ -335,10 +335,11 @@
 /* Desktop filter panel */
 .filter-panel {
   position: absolute;
-  /* full map height; the bottom gap keeps the attribution visible */
-  top: 10px;
+  /* Opens right under the Filter button (chip bar: top 10px + 44px + gap);
+     the bottom gap keeps the attribution visible. */
+  top: 62px;
   bottom: 26px;
-  right: 49px;
+  left: 12px;
   z-index: 3;
   display: flex;
   flex-direction: column;
