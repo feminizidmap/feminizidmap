@@ -5,6 +5,16 @@
   min-height: 0;
 }
 
+@media (min-width: 992px) {
+  .map-page-main {
+    flex: none;
+    height: 900px;
+    max-height: calc(100vh - 80px);
+    max-height: calc(100dvh - 80px);
+    min-height: 600px;
+  }
+}
+
 .cases-map-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.9fr) minmax(320px, 1fr);
