@@ -27,8 +27,8 @@ export default function RootLayout({ children, params: { locale } }) {
   if (!locales.includes(locale)) notFound();
 
   return (
-    <html lang={locale}>
-      <body className={`${serif.variable} ${sans.variable} ${mono.variable}`}>
+    <html lang={locale} className={`${serif.variable} ${sans.variable} ${mono.variable}`}>
+      <body>
         <LayoutShell locale={locale}>{children}</LayoutShell>
       </body>
     </html>
