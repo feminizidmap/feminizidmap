@@ -40,6 +40,11 @@ const dictionaries = {
     common: {
       unavailable: "Dieser Inhalt ist gerade nicht verfügbar.",
     },
+    faq: {
+      count: "Fragen zum Projekt",
+      missing: "Eure Frage ist nicht dabei?",
+      write: "Schreibt uns – wir antworten so schnell wir können.",
+    },
     pages: {
       faq: "Fragen und Antworten",
       imprint: "Impressum",
@@ -126,6 +131,11 @@ const dictionaries = {
     },
     common: {
       unavailable: "This content is not available right now.",
+    },
+    faq: {
+      count: "questions about the project",
+      missing: "Your question isn’t here?",
+      write: "Write to us – we’ll answer as soon as we can.",
     },
     pages: {
       faq: "FAQ",

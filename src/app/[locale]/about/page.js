@@ -1,4 +1,3 @@
-import "@/app/cards.css";
 import PageHeader from "@/app/PageHeader";
 import BlocksContent from "@/app/BlocksContent";
 import { getAbout, getTeamMembers } from "@/services/api";
@@ -8,24 +7,24 @@ function TeamSection({ members, t }) {
   const active = members.filter((member) => member.active);
   const previous = members.filter((member) => !member.active);
 
-  return <section id="team" className="mt-5">
-    <h2 className="purple display-4 fw-bold">{t.title}</h2>
+  return <section id="team" className="team" aria-labelledby="team-title">
+    <h2 id="team-title" className="t-section team-title">{t.title}</h2>
     {active.length === 0 ? (
-      <p className="fs-4">{t.unavailable}</p>
+      <p className="prose">{t.unavailable}</p>
     ) : (
-      <ul className="list-unstyled card-grid">
+      <ul className="team-grid">
         {active.map((member) => (
-          <li key={member.documentId} className="card-item">
-            <h3 className="purple fs-3 fw-bold card-title">{member.name}</h3>
-            {member.text && <p className="fs-5 card-text card-text-preline">{member.text}</p>}
+          <li key={member.documentId} className="team-member">
+            <h3 className="team-name">{member.name}</h3>
+            {member.text && <p className="team-bio">{member.text}</p>}
           </li>
         ))}
       </ul>
     )}
     {previous.length > 0 && (
-      <div className="mt-5">
-        <h3 className="purple fw-bold">{t.thanks}</h3>
-        <p className="fs-4">{previous.map((member) => member.name).join(" · ")}</p>
+      <div className="team-previous">
+        <h3 className="t-kicker">{t.thanks}</h3>
+        <p>{previous.map((member) => member.name).join(" · ")}</p>
       </div>
     )}
   </section>;
@@ -43,9 +42,9 @@ export default async function Page({ params: { locale } }) {
 
   return <>
     <PageHeader locale={locale} title={about?.title || t.about.title} />
-    <main className="page-body">
-    {about?.content ? <BlocksContent content={about.content} /> : <p className="fs-3">{t.about.fallbackText}</p>}
-    <TeamSection members={members} t={t.team} />
+    <main className="page-body page-body-text">
+      {about?.content ? <BlocksContent content={about.content} className="prose-about" /> : <p className="prose">{t.about.fallbackText}</p>}
+      <TeamSection members={members} t={t.team} />
     </main>
   </>
 }
