@@ -342,7 +342,8 @@
   z-index: 3;
   display: flex;
   flex-direction: column;
-  width: 340px;
+  width: 400px;
+  max-width: calc(100% - 70px);
   background: #fff;
   border: 2px solid #000;
   border-top-width: 4px;
@@ -471,11 +472,12 @@
 
 .attempt-switch button {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.35rem;
-  height: 36px;
-  padding: 0;
+  gap: 2px;
+  min-height: 48px;
+  padding: 4px 6px;
   border: 0;
   border-left: 2px solid #000;
   background: #fff;
@@ -515,7 +517,7 @@
 }
 
 .attempt-switch.is-mobile button {
-  height: 44px;
+  min-height: 52px;
 }
 
 .state-checklist-empty {
