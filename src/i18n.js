@@ -20,6 +20,13 @@ const dictionaries = {
     footer: {
       imprint: "Impressum",
       dataprotection: "Datenschutz",
+      reportCase: "Wenn ihr zur Dokumentation beitragen wollt, indem ihr uns einen Fall meldet, schreibt an unsere E-Mail-Adresse:",
+      contact: "Wenn ihr mit uns zusammenarbeiten und euch vernetzen wollt, für Feedback zur Karte oder uns für andere Zwecke kontaktieren möchtet, könnt ihr dies über unsere E-Mail-Adresse tun:",
+      newsletterTitle: "Newsletter abonnieren",
+      newsletterText: "Abonniert unseren zweimonatlichen Newsletter mit Informationen zu unseren Daten, Einblicken in Fälle und Neuigkeiten über uns als Organisation.",
+      emailLabel: "E-Mail-Adresse",
+      subscribe: "Abonnieren",
+      newsletterNote: "Die Bestätigung öffnet sich in einem neuen Tab. Bitte bestätigt danach den Link in der E-Mail.",
     },
     common: {
       unavailable: "Dieser Inhalt ist gerade nicht verfügbar.",
@@ -78,6 +85,13 @@ const dictionaries = {
     footer: {
       imprint: "Imprint",
       dataprotection: "Data protection",
+      reportCase: "If you want to contribute to the documentation by reporting a case, you can report it to our email:",
+      contact: "If you think that you can and want to collaborate, if you want to network with us, for feedback on the map or for any other purposes, you can contact us at our email:",
+      newsletterTitle: "Subscribe to our newsletter",
+      newsletterText: "You can subscribe to our bi-monthly newsletter with information on our data, insights into cases and updates on us as an organization.",
+      emailLabel: "Email address",
+      subscribe: "Subscribe",
+      newsletterNote: "The confirmation opens in a new tab. Please then click the activation link in the email.",
     },
     common: {
       unavailable: "This content is not available right now.",
