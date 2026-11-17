@@ -56,7 +56,7 @@ export function getDataprotection(locale) {
 }
 
 export async function getReports(locale) {
-  return (await strapiGet(`/api/reports?locale=${locale}&sort=date:desc&pagination[pageSize]=100`)) ?? [];
+  return (await strapiGet(`/api/reports?locale=${locale}&populate=*&sort=date:desc&pagination[pageSize]=100`)) ?? [];
 }
 
 export function getReport(documentId, locale) {
