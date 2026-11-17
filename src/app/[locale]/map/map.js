@@ -50,7 +50,11 @@ const GERMANY_BOUNDS = [[5.87, 47.27], [15.04, 55.06]];
 const DESKTOP_HOME = { center: [10.5, 51.3], zoom: 5 };
 // How many zoom levels closer-in the map starts before easing out to home on first landing.
 const LANDING_ZOOM_OFFSET = 1;
-const DESKTOP_MAX_BOUNDS = [[2.0, 47.0], [18.0, 55.0]];
+// Wide enough that Germany can be framed with padding at any map height;
+// the old [[2, 47], [18, 55]] cut off the north and south once the map got shorter.
+const DESKTOP_MAX_BOUNDS = [[-2.0, 43.0], [22.0, 59.0]];
+// Room for the filter chip bar (top) and the zoom controls (right) around Germany.
+const DESKTOP_HOME_PADDING = { top: 72, bottom: 32, left: 48, right: 72 };
 // Looser on mobile so fitBounds can push Germany between top bar and list sheet.
 const MOBILE_MAX_BOUNDS = [[-4.0, 36.0], [24.0, 62.0]];
 
@@ -567,7 +571,8 @@ export default function CasesMap({
     }
 
     mapInstance.setMaxBounds(DESKTOP_MAX_BOUNDS);
-    jumpHome(mapInstance, DESKTOP_HOME);
+    const camera = mapInstance.cameraForBounds(GERMANY_BOUNDS, { padding: DESKTOP_HOME_PADDING });
+    jumpHome(mapInstance, camera ? { center: camera.center, zoom: camera.zoom } : DESKTOP_HOME);
     const navigationControl = new maplibregl.NavigationControl({ showCompass: false });
     const actionsControl = new PortalControl("cases-map-actions");
     mapInstance.addControl(navigationControl, "top-right");
