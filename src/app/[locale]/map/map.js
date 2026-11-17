@@ -56,7 +56,7 @@ const MOBILE_MAX_BOUNDS = [[-4.0, 36.0], [24.0, 62.0]];
 
 // Points with an open case, and clusters containing at least one, are drawn in ink and on top.
 const HAS_OPEN_CASE = ["any", ["==", ["get", "hasOpen"], true], ["==", ["get", "open"], true]];
-const MARKER_COLOR = ["case", HAS_OPEN_CASE, "#000000", "#B523F3"];
+const MARKER_COLOR = ["case", HAS_OPEN_CASE, "#000000", "#9F00FF"];
 const MARKER_SORT_KEY = ["case", HAS_OPEN_CASE, 1, 0];
 
 // Any marker containing a selected case gets the ring, so the selection survives re-clustering on zoom.
