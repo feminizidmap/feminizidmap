@@ -55,6 +55,8 @@ const LANDING_ZOOM_OFFSET = 1;
 const DESKTOP_MAX_BOUNDS = [[-2.0, 43.0], [22.0, 59.0]];
 // Room for the filter chip bar (top) and the zoom controls (right) around Germany.
 const DESKTOP_HOME_PADDING = { top: 72, bottom: 32, left: 48, right: 72 };
+// The fitted view is pulled back a little more so neighbouring countries give context.
+const DESKTOP_HOME_ZOOM_OUT = 0.5;
 // Looser on mobile so fitBounds can push Germany between top bar and list sheet.
 const MOBILE_MAX_BOUNDS = [[-4.0, 36.0], [24.0, 62.0]];
 
@@ -572,7 +574,7 @@ export default function CasesMap({
 
     mapInstance.setMaxBounds(DESKTOP_MAX_BOUNDS);
     const camera = mapInstance.cameraForBounds(GERMANY_BOUNDS, { padding: DESKTOP_HOME_PADDING });
-    jumpHome(mapInstance, camera ? { center: camera.center, zoom: camera.zoom } : DESKTOP_HOME);
+    jumpHome(mapInstance, camera ? { center: camera.center, zoom: camera.zoom - DESKTOP_HOME_ZOOM_OUT } : DESKTOP_HOME);
     const navigationControl = new maplibregl.NavigationControl({ showCompass: false });
     const actionsControl = new PortalControl("cases-map-actions");
     mapInstance.addControl(navigationControl, "top-right");
