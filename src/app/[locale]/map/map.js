@@ -55,14 +55,15 @@ const LANDING_ZOOM_OFFSET = 1;
 const DESKTOP_MAX_BOUNDS = [[-2.0, 43.0], [22.0, 59.0]];
 // Room for the filter chip bar (top) and the zoom controls (right) around Germany.
 const DESKTOP_HOME_PADDING = { top: 72, bottom: 32, left: 48, right: 72 };
-// The fitted view is pulled back a little more so neighbouring countries give context.
-const DESKTOP_HOME_ZOOM_OUT = 0.5;
+// The fitted view is zoomed in a bit further so the basemap fills the container edge to edge.
+const DESKTOP_HOME_ZOOM_IN = 0.6;
 // Looser on mobile so fitBounds can push Germany between top bar and list sheet.
 const MOBILE_MAX_BOUNDS = [[-4.0, 36.0], [24.0, 62.0]];
+const MOBILE_HOME_ZOOM_IN = 0.4;
 
 // Points with an open case, and clusters containing at least one, are drawn in ink and on top.
 const HAS_OPEN_CASE = ["any", ["==", ["get", "hasOpen"], true], ["==", ["get", "open"], true]];
-const MARKER_COLOR = ["case", HAS_OPEN_CASE, "#000000", "#9F00FF"];
+const MARKER_COLOR = ["case", HAS_OPEN_CASE, "#000000", "#802993"];
 const MARKER_SORT_KEY = ["case", HAS_OPEN_CASE, 1, 0];
 
 // Any marker containing a selected case gets the ring, so the selection survives re-clustering on zoom.
@@ -568,13 +569,13 @@ export default function CasesMap({
       const camera = mapInstance.cameraForBounds(GERMANY_BOUNDS, {
         padding: { top: 16, bottom: bottom + 16, left: 16, right: 16 },
       });
-      jumpHome(mapInstance, { center: camera.center, zoom: camera.zoom });
+      jumpHome(mapInstance, { center: camera.center, zoom: camera.zoom + MOBILE_HOME_ZOOM_IN });
       return undefined;
     }
 
     mapInstance.setMaxBounds(DESKTOP_MAX_BOUNDS);
     const camera = mapInstance.cameraForBounds(GERMANY_BOUNDS, { padding: DESKTOP_HOME_PADDING });
-    jumpHome(mapInstance, camera ? { center: camera.center, zoom: camera.zoom - DESKTOP_HOME_ZOOM_OUT } : DESKTOP_HOME);
+    jumpHome(mapInstance, camera ? { center: camera.center, zoom: camera.zoom + DESKTOP_HOME_ZOOM_IN } : DESKTOP_HOME);
     const navigationControl = new maplibregl.NavigationControl({ showCompass: false });
     const actionsControl = new PortalControl("cases-map-actions");
     mapInstance.addControl(navigationControl, "top-right");
