@@ -6,7 +6,11 @@
   border-top: 3px solid #000;
   background: var(--lilac);
   box-shadow: none;
-  transition: background-color 0.15s;
+  transition: background-color 0.15s, border-top-color 0.15s;
+}
+
+.case-card.is-open {
+  border-top-color: var(--case-accent, var(--accent));
 }
 
 .case-card:hover {
@@ -62,22 +66,19 @@
   width: 32px;
   height: 32px;
   padding: 0;
-  border: 2px solid #000;
-  background: #fff;
+  border: 0;
+  background: none;
   color: #000;
-  transition: background 0.15s, color 0.15s;
+  transition: color 0.15s;
 }
 
 .case-card-head:hover .case-card-chevron,
 .case-card-chevron:hover {
-  background: #000;
-  color: #fff;
+  color: var(--case-accent, var(--accent));
 }
 
 .case-card.is-open .case-card-chevron {
-  background: var(--case-accent, var(--accent));
-  border-color: var(--case-accent, var(--accent));
-  color: #fff;
+  color: var(--case-accent, var(--accent));
 }
 
 /* Toggle 2: full-width footer strip */
@@ -90,7 +91,7 @@
   height: 40px;
   border: 0;
   border-top: 1px solid #000;
-  background: #ecdff3;
+  background: none;
   color: #000;
   font-size: 0.95rem;
   font-weight: 700;
@@ -98,7 +99,7 @@
 }
 
 .case-card-toggle:hover {
-  background: #e3cdee;
+  background: #ecdff3;
 }
 
 .case-card-chevron svg,
@@ -262,14 +263,14 @@
 }
 
 .case-details-muted {
-  color: #777;
+  color: #555;
 }
 
 .case-details-hint {
   display: block;
   margin-top: 0.1rem;
   font-size: 0.85rem;
-  color: #777;
+  color: #555;
 }
 
 .case-risk-factors {
@@ -304,7 +305,7 @@
   padding-top: 0.6rem;
   border-top: 1px solid #000;
   font: 0.8rem/1.4 ui-monospace, Menlo, monospace;
-  color: #777;
+  color: #555;
 }
 
 @media (max-width: 400px) {
