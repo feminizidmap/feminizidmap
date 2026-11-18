@@ -103,7 +103,7 @@ export default function CaseDetails({ props, open, onOpenChange, alwaysOpen = fa
   };
 
   const bodyId = useId();
-  const toggleLabel = isOpen ? "Details ausblenden" : "Alle Details";
+  const toggleLabel = isOpen ? "Details ausblenden" : "Details";
 
   // Chevron and footer buttons toggle; so does a click on the head, unless the user is selecting text.
   const handleToggleClick = (event) => {
