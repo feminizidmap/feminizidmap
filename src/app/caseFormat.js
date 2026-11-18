@@ -35,7 +35,7 @@ export function knownAge(value) {
   return Number.isFinite(age) && age > 0 ? age : null;
 }
 
-function blocksToText(node) {
+export function blocksToText(node) {
   if (!node) return "";
   if (typeof node.text === "string") return node.text;
   if (Array.isArray(node.children)) return node.children.map(blocksToText).join("");

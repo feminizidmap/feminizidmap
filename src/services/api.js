@@ -29,14 +29,16 @@ async function strapiGet(path, { allowNotFound = false } = {}) {
 }
 
 // Single type with `title` + blocks `content` (home, about, faq, imprint, ...).
+// Omit `locale` for single types that are not localized.
 async function getPage(endpoint, locale) {
-  const data = await strapiGet(`${endpoint}?locale=${locale}`);
+  const query = locale ? `?locale=${locale}` : "";
+  const data = await strapiGet(`${endpoint}${query}`);
 
   return data ? { title: data.title ?? null, content: data.content ?? null } : null;
 }
 
-export async function getHome(locale) {
-  return (await getPage("/api/home", locale))?.content ?? null;
+export function getHome(locale) {
+  return getPage("/api/home", locale);
 }
 
 export function getAbout(locale) {
@@ -47,16 +49,17 @@ export function getFaq(locale) {
   return getPage("/api/faq", locale);
 }
 
-export function getImprint(locale) {
-  return getPage("/api/imprint", locale);
+// Imprint and data protection are not localized (German only).
+export function getImprint() {
+  return getPage("/api/imprint");
 }
 
-export function getDataprotection(locale) {
-  return getPage("/api/dataprotection", locale);
+export function getDataprotection() {
+  return getPage("/api/dataprotection");
 }
 
 export async function getReports(locale) {
-  return (await strapiGet(`/api/reports?locale=${locale}&sort=date:desc&pagination[pageSize]=100`)) ?? [];
+  return (await strapiGet(`/api/reports?locale=${locale}&populate=*&sort=date:desc&pagination[pageSize]=100`)) ?? [];
 }
 
 export function getReport(documentId, locale) {

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Container } from "react-bootstrap";
 import { getDictionary, localePath } from "@/i18n";
 
 // rapidmail subscribe endpoint, taken verbatim from the old Hugo site's newsletter embed.
@@ -10,36 +9,50 @@ export default function SiteFooter({ locale }) {
   const t = getDictionary(locale).footer;
 
   return (
-    <Container as="footer" className="site-footer py-4 mb-3">
-      <div className="site-footer-contact">
-        <p>{t.reportCase} <a href="mailto:feminizidalerts@web.de">feminizidalerts@web.de</a></p>
-        <p>{t.contact} <a href="mailto:info@feminizidmap.org">info@feminizidmap.org</a></p>
+    <footer className="site-footer">
+      <div className="site-footer-grid">
+        <div className="site-footer-contact">
+          <div className="site-footer-block">
+            <h2 className="t-kicker">{t.reportCaseTitle}</h2>
+            <p>{t.reportCase}</p>
+            <a href="mailto:feminizidalerts@web.de" className="site-footer-mail">feminizidalerts@web.de</a>
+          </div>
+          <div className="site-footer-block">
+            <h2 className="t-kicker">{t.contactTitle}</h2>
+            <p>{t.contact}</p>
+            <a href="mailto:info@feminizidmap.org" className="site-footer-mail">info@feminizidmap.org</a>
+          </div>
+        </div>
+
+        <section className="newsletter" aria-labelledby="newsletter-title">
+          <h2 id="newsletter-title" className="newsletter-title">{t.newsletterTitle}</h2>
+          <p className="newsletter-text">{t.newsletterText}</p>
+          <form className="newsletter-form" method="post" action={NEWSLETTER_ACTION} target="_blank">
+            <label htmlFor="newsletter-email" className="t-kicker">{t.emailLabel}</label>
+            <div className="newsletter-row">
+              <input
+                type="email"
+                name="email"
+                id="newsletter-email"
+                className="newsletter-input"
+                placeholder={t.emailPlaceholder}
+                autoComplete="email"
+                required
+              />
+              <button type="submit" className="newsletter-button">{t.subscribe}</button>
+            </div>
+          </form>
+          <p className="newsletter-note">{t.newsletterNote}</p>
+        </section>
       </div>
 
-      <section className="newsletter my-4" aria-labelledby="newsletter-title">
-        <h2 id="newsletter-title" className="fs-4 fw-bold">{t.newsletterTitle}</h2>
-        <p>{t.newsletterText}</p>
-        <form className="newsletter-form" method="post" action={NEWSLETTER_ACTION} target="_blank">
-          <label htmlFor="newsletter-email" className="visually-hidden">{t.emailLabel}</label>
-          <input
-            type="email"
-            name="email"
-            id="newsletter-email"
-            className="newsletter-input"
-            placeholder={t.emailLabel}
-            autoComplete="email"
-            required
-          />
-          <button type="submit" className="newsletter-button">{t.subscribe}</button>
-        </form>
-        <p className="newsletter-note">{t.newsletterNote}</p>
-      </section>
-
-      <nav className="site-footer-legal">
-        <Link href={localePath(locale, "/imprint")}>{t.imprint}</Link>
-        <span aria-hidden="true"> · </span>
-        <Link href={localePath(locale, "/dataprotection")}>{t.dataprotection}</Link>
-      </nav>
-    </Container>
+      <div className="site-footer-bottom">
+        <span className="site-logo" aria-hidden="true">FEMINIZID<br />MAP.<br />ORG</span>
+        <nav className="site-footer-legal" aria-label={t.legal}>
+          <Link href={localePath(locale, "/imprint")}>{t.imprint}</Link>
+          <Link href={localePath(locale, "/dataprotection")}>{t.dataprotection}</Link>
+        </nav>
+      </div>
+    </footer>
   );
 }

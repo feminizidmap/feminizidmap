@@ -1,4 +1,5 @@
 import BlocksContent from "./BlocksContent";
+import PageHeader from "./PageHeader";
 import { getDictionary } from "@/i18n";
 
 // Server component for Strapi single types with `title` + blocks `content`.
@@ -13,12 +14,14 @@ export default async function StrapiPage({ load, locale, pageKey }) {
     console.error(`Failed to load "${pageKey}" content (${locale})`, error);
   }
 
-  return <main>
-    <h1 className="purple display-1 fw-bold">{page?.title || t.pages[pageKey]}</h1>
-    {page?.content ? (
-      <BlocksContent content={page.content} />
-    ) : (
-      <p className="fs-3">{t.common.unavailable}</p>
-    )}
-  </main>
+  return <>
+    <PageHeader locale={locale} title={page?.title || t.pages[pageKey]} />
+    <main className="page-body page-body-text">
+      {page?.content ? (
+        <BlocksContent content={page.content} />
+      ) : (
+        <p className="prose">{t.common.unavailable}</p>
+      )}
+    </main>
+  </>
 }

@@ -1,36 +1,30 @@
 "use client";
 
-import { Container } from "react-bootstrap";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Navigation from "./Navigation";
-import Image from "next/image";
 import SiteFooter from "./SiteFooter";
-import { localePath } from "@/i18n";
+import { getDictionary, localePath, switchLocalePath } from "@/i18n";
 
 export default function LayoutShell({ children, locale }) {
   const pathname = usePathname();
+  const t = getDictionary(locale).nav;
   const isFixedHeightRoute = pathname === localePath(locale, "/map");
+  const otherLocale = locale === "de" ? "en" : "de";
 
   return (
-    <div
-      className={`d-flex flex-column site-shell${
-        isFixedHeightRoute ? " site-shell-fixed" : ""
-      }`}
-    >
-      <Container>
-        <Image
-          alt="FeminizidMap.org"
-          src="/title.svg"
-          className="pt-3 d-none d-lg-block w-100 h-auto"
-          width={0}
-          height={0}
-        />
-        <Navigation locale={locale} />
-      </Container>
-      <Container className="d-flex flex-column flex-grow-1 my-4 site-content">
-        {children}
-      </Container>
-      {!isFixedHeightRoute && <SiteFooter locale={locale} />}
+    <div className={`site-shell${isFixedHeightRoute ? " site-shell-fixed" : ""}`}>
+      {/* Black rail with the vertical language link, as on the old site. */}
+      <aside className="site-rail">
+        <Link href={switchLocalePath(pathname, otherLocale)} hrefLang={otherLocale} lang={otherLocale} className="site-rail-link">
+          {t.otherVersion}
+        </Link>
+        <span className="site-rail-note" aria-hidden="true">{t.railNote}</span>
+      </aside>
+      <div className="site-main">
+        <div className="site-content">{children}</div>
+        {/* On phones the map route is a full-screen app; globals.css hides the footer there. */}
+        <SiteFooter locale={locale} />
+      </div>
     </div>
   );
 }

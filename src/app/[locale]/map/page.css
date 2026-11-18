@@ -5,6 +5,16 @@
   min-height: 0;
 }
 
+/* Desktop: once the header is scrolled away, map and case list fill the screen. */
+@media (min-width: 992px) {
+  .map-page-main {
+    flex: none;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 720px;
+  }
+}
+
 .cases-map-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.9fr) minmax(320px, 1fr);
@@ -49,8 +59,9 @@
 
 .cases-list-title {
   margin: 0;
-  font-size: 1.5rem;
-  font-weight: 800;
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 400;
   line-height: 1.2;
   color: #000;
 }
@@ -154,7 +165,7 @@
   border: 0;
   background: none;
   padding: 0;
-  color: rgb(181, 35, 243);
+  color: var(--accent);
   font-size: 0.9rem;
   font-weight: 700;
   text-decoration: underline;
@@ -198,14 +209,14 @@
 }
 
 .month-slider-bars i.is-in-range {
-  background: rgb(181, 35, 243);
+  background: var(--accent);
 }
 
 .month-slider-brush {
   position: absolute;
   top: -4px;
   bottom: -4px;
-  background: rgba(181, 35, 243, 0.08);
+  background: rgba(159, 0, 255, 0.08);
   border-left: 3px solid #000;
   border-right: 3px solid #000;
   pointer-events: none;
@@ -229,7 +240,7 @@
 }
 
 .month-slider-handle:focus-visible {
-  outline: 2px solid rgb(181, 35, 243);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
@@ -314,7 +325,7 @@
   min-width: 20px;
   height: 20px;
   padding: 0 6px;
-  background: rgb(181, 35, 243);
+  background: var(--accent);
   color: #fff;
   font-size: 0.8rem;
   font-weight: 700;
@@ -324,14 +335,16 @@
 /* Desktop filter panel */
 .filter-panel {
   position: absolute;
-  /* full map height; the bottom gap keeps the attribution visible */
-  top: 10px;
+  /* Opens right under the Filter button (chip bar: top 10px + 44px + gap);
+     the bottom gap keeps the attribution visible. */
+  top: 62px;
   bottom: 26px;
-  right: 49px;
+  left: 12px;
   z-index: 3;
   display: flex;
   flex-direction: column;
-  width: 340px;
+  width: 400px;
+  max-width: calc(100% - 70px);
   background: #fff;
   border: 2px solid #000;
   border-top-width: 4px;
@@ -436,7 +449,7 @@
 }
 
 .state-search:focus {
-  outline: 2px solid rgb(181, 35, 243);
+  outline: 2px solid var(--accent);
   outline-offset: -1px;
   border-color: transparent;
 }
@@ -460,11 +473,12 @@
 
 .attempt-switch button {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.35rem;
-  height: 36px;
-  padding: 0;
+  gap: 2px;
+  min-height: 48px;
+  padding: 4px 6px;
   border: 0;
   border-left: 2px solid #000;
   background: #fff;
@@ -499,12 +513,12 @@
 }
 
 .attempt-switch button:focus-visible {
-  outline: 2px solid rgb(181, 35, 243);
+  outline: 2px solid var(--accent);
   outline-offset: -2px;
 }
 
 .attempt-switch.is-mobile button {
-  height: 44px;
+  min-height: 52px;
 }
 
 .state-checklist-empty {
@@ -533,7 +547,7 @@
   width: 16px;
   height: 16px;
   margin: 0;
-  accent-color: rgb(181, 35, 243);
+  accent-color: var(--accent);
 }
 
 .state-check.is-zero {
@@ -830,7 +844,7 @@
   flex: 1;
   height: 48px;
   border: 0;
-  background: rgb(181, 35, 243);
+  background: var(--accent);
   color: #fff;
   font-size: 1.1rem;
   font-weight: 800;
