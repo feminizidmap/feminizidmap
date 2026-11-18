@@ -47,7 +47,7 @@ class PortalControl {
 }
 
 const GERMANY_BOUNDS = [[5.87, 47.27], [15.04, 55.06]];
-const DESKTOP_HOME = { center: [10.5, 51.3], zoom: 5 };
+const DESKTOP_HOME = { center: [10.5, 51.3], zoom: 6 };
 // How many zoom levels closer-in the map starts before easing out to home on first landing.
 const LANDING_ZOOM_OFFSET = 1;
 // Wide enough that Germany can be framed with padding at any map height;
@@ -56,10 +56,10 @@ const DESKTOP_MAX_BOUNDS = [[-2.0, 43.0], [22.0, 59.0]];
 // Room for the filter chip bar (top) and the zoom controls (right) around Germany.
 const DESKTOP_HOME_PADDING = { top: 72, bottom: 32, left: 48, right: 72 };
 // The fitted view is zoomed in a bit further so the basemap fills the container edge to edge.
-const DESKTOP_HOME_ZOOM_IN = 0.6;
+const DESKTOP_HOME_ZOOM_IN = 0.2;
 // Looser on mobile so fitBounds can push Germany between top bar and list sheet.
 const MOBILE_MAX_BOUNDS = [[-4.0, 36.0], [24.0, 62.0]];
-const MOBILE_HOME_ZOOM_IN = 0.4;
+const MOBILE_HOME_ZOOM_IN = 0.1;
 
 // Points with an open case, and clusters containing at least one, are drawn in ink and on top.
 const HAS_OPEN_CASE = ["any", ["==", ["get", "hasOpen"], true], ["==", ["get", "open"], true]];
