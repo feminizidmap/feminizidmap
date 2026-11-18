@@ -59,7 +59,7 @@ const DESKTOP_HOME_PADDING = { top: 72, bottom: 32, left: 48, right: 72 };
 const DESKTOP_HOME_ZOOM_IN = 0.2;
 // Looser on mobile so fitBounds can push Germany between top bar and list sheet.
 const MOBILE_MAX_BOUNDS = [[-4.0, 36.0], [24.0, 62.0]];
-const MOBILE_HOME_ZOOM_IN = 0.1;
+const MOBILE_HOME_ZOOM_IN = 0;
 
 // Points with an open case, and clusters containing at least one, are drawn in lila and on top.
 const HAS_OPEN_CASE = ["any", ["==", ["get", "hasOpen"], true], ["==", ["get", "open"], true]];
@@ -370,7 +370,7 @@ export default function CasesMap({
         data: geojsonRef.current,
         cluster: true,
         clusterMaxZoom: 14,
-        clusterRadius: 50,
+        clusterRadius: 35,
         clusterProperties: {
           hasOpen: ["any", ["==", ["get", "open"], true]],
           hasSelected: ["any", ["==", ["get", "selected"], true]],
