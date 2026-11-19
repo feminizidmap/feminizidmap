@@ -6,79 +6,103 @@
   font-size: 1.25rem;
 }
 
-.database-header {
-  margin-bottom: 2rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 2px solid #172033;
+.database-toolbar {
   display: flex;
-  align-items: baseline;
+  align-items: center;
+  flex-wrap: wrap;
   gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.25rem;
+  background: #fff;
+  border: 1px solid var(--rule);
 }
 
-.database-header .cases-list-kicker {
-  font-size: 0.85rem;
-  margin: 0;
+.state-search.database-search {
+  flex: 1 1 260px;
+  min-width: 0;
+  height: 44px;
+  margin-bottom: 0;
 }
 
-.database-header .cases-list-title {
-  font-size: 1.75rem;
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  margin: 0;
+/* The filter chip bar and panel are absolutely positioned to overlay the map; here they sit
+   inline in the normal page flow instead, framed as controls that belong to this page rather
+   than a widget dropped on top of it. */
+.database-layout .filter-chip-bar {
+  position: static;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
-.database-scroll {
-  flex: 1;
-  min-height: 0;
-  display: grid;
-  gap: 0;
+.database-layout .filter-chip {
+  border: 1px solid #000;
+  border-top: 3px solid #000;
 }
 
-.database-scroll .case-card {
-  margin: 0;
-  padding: 1.25rem 1rem;
-  border: none;
-  border-bottom: 1px solid #e4e8ef;
-  background: transparent;
-  transition: background 0.15s ease;
+.database-layout .filter-panel {
+  position: static;
+  width: 100%;
+  max-width: none;
+  margin: 0 0 1.5rem;
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-top: 3px solid #000;
+  box-shadow: 0 1px 3px rgba(23, 32, 51, 0.08);
 }
 
-.database-scroll .case-card:hover {
-  background: #f6f8fb;
+.database-layout .filter-panel-body {
+  overflow: visible;
 }
 
-.database-scroll .case-card:last-child {
-  border-bottom: none;
+.database-layout .filter-panel-footer {
+  background: var(--lilac);
 }
 
-.database-scroll .case-card-meta {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #384B70;
-  letter-spacing: 0.01em;
-  margin-bottom: 0.35rem;
+/* The mobile filter sheet overlays the map canvas; here there is none, so it must cover the
+   viewport itself rather than whatever happens to be the nearest positioned ancestor. */
+.database-layout .mobile-filter-sheet,
+.database-layout .mobile-dim {
+  position: fixed;
 }
 
-.database-scroll .case-card-description {
-  font-size: 1.15rem;
-  line-height: 1.55;
-  color: #2a3650;
+.database-layout .cases-list-scroll {
+  flex: none;
+  overflow: visible;
 }
 
-/* Cards are always expanded here; spread the detail sections across the
-   page's extra width instead of stacking them in a single narrow column. */
-.database-scroll .case-card-body {
+/* Desktop: two cards per row instead of one long single-file list. An opened card spans both
+   columns, since it has detail sections to lay out and would otherwise feel cramped. */
+@media (min-width: 992px) {
+  .database-layout .cases-list-scroll {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: start;
+    gap: 0 2.5rem;
+  }
+
+  .database-layout .case-card.is-open {
+    grid-column: 1 / -1;
+  }
+
+  .database-layout .cases-list-more {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Cards use the same look as the map's list (lilac background, bold top border); only the
+   layout is page-specific — once opened, a card spreads its detail sections across the page's
+   extra width instead of stacking them in the map's single narrow column. */
+.database-layout .case-card.is-open .case-card-body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 0 2.5rem;
 }
 
-.database-scroll .case-details-list {
+.database-layout .case-card.is-open .case-details-list {
   grid-template-columns: 10rem 1fr;
   font-size: 1.05rem;
 }
 
-.database-scroll .case-details-id {
+.database-layout .case-card.is-open .case-details-id {
   grid-column: 1 / -1;
 }
 
@@ -87,11 +111,11 @@
     padding: 1.25rem 1rem;
   }
 
-  .database-header .cases-list-title {
-    font-size: 1.35rem;
+  .database-toolbar {
+    padding: 0.75rem 1rem;
   }
 
-  .database-scroll .case-card-description {
-    font-size: 1.05rem;
+  .database-layout .cases-list-title {
+    font-size: 1.35rem;
   }
 }

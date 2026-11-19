@@ -6,6 +6,8 @@ import { ChevronDownIcon } from "./MapIcons";
 
 export const LIST_PAGE_SIZE = 40;
 
+const EMPTY_OPEN_IDS = new Set();
+
 function casesTitle(count, suffix = "") {
   return `${count} ${count === 1 ? "Fall" : "Fälle"}${suffix}`;
 }
@@ -15,12 +17,14 @@ export default function CaseList({
   filteredCases,
   selection,
   limit,
-  openCaseIds,
+  openCaseIds = EMPTY_OPEN_IDS,
   onToggleCase,
   onMore,
   onReset,
   onClose,
   backButtonRef,
+  // the database list, which has room to show every case's details at once
+  alwaysOpen = false,
 }) {
   const scrollRef = useRef(null);
   const visibleCases = selection ?? filteredCases;
@@ -66,8 +70,9 @@ export default function CaseList({
             <CaseDetails
               key={caseItem.uuid}
               props={caseItem}
-              open={openCaseIds.has(String(caseItem.uuid))}
-              onOpenChange={(open) => onToggleCase(String(caseItem.uuid), open)}
+              alwaysOpen={alwaysOpen}
+              open={alwaysOpen ? undefined : openCaseIds.has(String(caseItem.uuid))}
+              onOpenChange={alwaysOpen ? undefined : (open) => onToggleCase(String(caseItem.uuid), open)}
             />
           ))}
           {rest > 0 && (

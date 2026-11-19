@@ -187,6 +187,27 @@ export function genderOptionLabel(key) {
 
 export const ATTEMPT_CHIP_LABELS = { yes: "Nur Versuche", no: "Nur vollendete" };
 
+// Plain-text haystack for free-text search (database list): victim name, place, identifier, media labels.
+export function getSearchText(caseItem) {
+  const victim = firstOf(caseItem?.victims) ?? {};
+  const perpetrator = firstOf(caseItem?.perpetrators) ?? {};
+  const crime = firstOf(caseItem?.crime) ?? {};
+  const parts = [
+    victim.name,
+    crime.crime_city,
+    crime.crime_state,
+    perpetrator.perpetrator_city,
+    perpetrator.perpetrator_state,
+    caseItem?.identifier,
+    victim.type_of_feminicide,
+    ...(Array.isArray(caseItem?.media_labels) ? caseItem.media_labels : []),
+  ];
+  return parts
+    .filter((value) => typeof value === "string" && value.trim())
+    .join(" ")
+    .toLowerCase();
+}
+
 // One label per active facet, e.g. ["Intim", "Nur Versuche", "Täter*in: weiblich"].
 export function facetLabels({ types, attempt, gender }) {
   const labels = [];

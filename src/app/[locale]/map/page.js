@@ -1,6 +1,7 @@
 import Map from "./map";
 import PageHeader from "@/app/PageHeader";
 import { getDictionary } from "@/i18n";
+import "./filters.css";
 import "./page.css";
 
 export default function Page({ params: { locale } }) {

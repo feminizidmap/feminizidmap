@@ -385,7 +385,7 @@ h1, h2, h3, h4 {
   align-self: flex-start;
 }
 
-@media (max-width: 991.98px) {
+@media (max-width: 1199.98px) {
   .site-nav {
     align-items: center;
   }
@@ -397,7 +397,9 @@ h1, h2, h3, h4 {
   .site-nav-toggle {
     display: inline-flex;
   }
+}
 
+@media (max-width: 991.98px) {
   .page-header {
     gap: var(--space-9);
   }

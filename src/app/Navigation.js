@@ -6,9 +6,9 @@ import { usePathname } from 'next/navigation';
 import { getDictionary, localePath, locales, switchLocalePath } from '@/i18n';
 
 export const NAV_ITEMS = [
-  ["home", "/"],
   ["publications", "/publications"],
   ["map", "/map"],
+  ["database", "/database"],
   ["events", "/events"],
   ["about", "/about"],
   ["faq", "/faq"],

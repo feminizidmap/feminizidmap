@@ -12,6 +12,7 @@ const dictionaries = {
       home: "Start",
       about: "Über uns",
       map: "Karte",
+      database: "Datenbank",
       events: "Veranstaltungen",
       publications: "Publikationen",
       faq: "FAQ",
@@ -83,6 +84,10 @@ const dictionaries = {
       title: "Karte der Fälle",
       lead: "Alle dokumentierten Fälle auf einer Karte – mit Filtern und Details zu jedem Fall.",
     },
+    database: {
+      title: "Datenbank der Fälle",
+      lead: "Alle dokumentierten Fälle als durchsuchbare Liste – mit Filtern und Details zu jedem Fall.",
+    },
     events: {
       title: "Veranstaltungen",
       lead: "Vorträge, Workshops und Diskussionen, bei denen wir unsere Daten und unsere Arbeit vorstellen.",
@@ -117,6 +122,7 @@ const dictionaries = {
       home: "Home",
       about: "About",
       map: "Map",
+      database: "Database",
       events: "Events",
       publications: "Publications",
       faq: "FAQ",
@@ -187,6 +193,10 @@ const dictionaries = {
     map: {
       title: "Map of cases",
       lead: "All documented cases on one map – with filters and details on every case.",
+    },
+    database: {
+      title: "Case database",
+      lead: "All documented cases as a searchable list – with filters and details on every case.",
     },
     events: {
       title: "Events",
