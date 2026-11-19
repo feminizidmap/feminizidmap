@@ -49,17 +49,16 @@ class PortalControl {
 const GERMANY_BOUNDS = [[5.87, 47.27], [15.04, 55.06]];
 const DESKTOP_HOME = { center: [10.5, 51.3], zoom: 6 };
 // How many zoom levels closer-in the map starts before easing out to home on first landing.
-const LANDING_ZOOM_OFFSET = 1;
+const LANDING_ZOOM_OFFSET = 0.2;
 // Wide enough that Germany can be framed with padding at any map height;
 // the old [[2, 47], [18, 55]] cut off the north and south once the map got shorter.
 const DESKTOP_MAX_BOUNDS = [[-2.0, 43.0], [22.0, 59.0]];
 // Room for the filter chip bar (top) and the zoom controls (right) around Germany.
 const DESKTOP_HOME_PADDING = { top: 72, bottom: 32, left: 48, right: 72 };
 // The fitted view is zoomed in a bit further so the basemap fills the container edge to edge.
-const DESKTOP_HOME_ZOOM_IN = 0.2;
+const DESKTOP_HOME_ZOOM_IN = 0;
 // Looser on mobile so fitBounds can push Germany between top bar and list sheet.
 const MOBILE_MAX_BOUNDS = [[-4.0, 36.0], [24.0, 62.0]];
-const MOBILE_HOME_ZOOM_IN = 0;
 
 // Points with an open case, and clusters containing at least one, are drawn in lila and on top.
 const HAS_OPEN_CASE = ["any", ["==", ["get", "hasOpen"], true], ["==", ["get", "open"], true]];
@@ -569,7 +568,7 @@ export default function CasesMap({
       const camera = mapInstance.cameraForBounds(GERMANY_BOUNDS, {
         padding: { top: 16, bottom: bottom + 16, left: 16, right: 16 },
       });
-      jumpHome(mapInstance, { center: camera.center, zoom: camera.zoom + MOBILE_HOME_ZOOM_IN });
+      jumpHome(mapInstance, { center: camera.center, zoom: camera.zoom });
       return undefined;
     }
 
