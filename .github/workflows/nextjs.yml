@@ -7,7 +7,7 @@ name: Deploy Next.js site to Pages
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: ["main"]
+    branches: ["main", "github-pages-deploy", "the-new-website-launch"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -29,8 +29,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-        NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
-        NEXT_PUBLIC_CASES_URL: ${{ secrets.NEXT_PUBLIC_CASES_URL }}
+        NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL }}
+        NEXT_PUBLIC_CASES_URL: ${{ vars.NEXT_PUBLIC_CASES_URL }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
