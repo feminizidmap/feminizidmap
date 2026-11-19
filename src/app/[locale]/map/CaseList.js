@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import CaseDetails from "@/app/CaseDetails";
-import { FunnelIcon } from "./MapIcons";
+import { ChevronDownIcon } from "./MapIcons";
 
 export const LIST_PAGE_SIZE = 40;
 
@@ -19,9 +19,8 @@ export default function CaseList({
   onToggleCase,
   onMore,
   onReset,
-  onOpenFilters,
-  filterOpen,
-  activeCount,
+  onClose,
+  backButtonRef,
 }) {
   const scrollRef = useRef(null);
   const visibleCases = selection ?? filteredCases;
@@ -42,16 +41,10 @@ export default function CaseList({
       {status === "ready" && (
         <div className="cases-list-header">
           <h2 className="cases-list-title">{title}</h2>
-          {onOpenFilters && (
-            <button
-              type="button"
-              className={`cases-list-filter${filterOpen ? " is-active" : ""}`}
-              aria-expanded={filterOpen}
-              onClick={onOpenFilters}
-            >
-              <FunnelIcon size={18} />
-              Filter
-              {activeCount > 0 && <span className="filter-badge">{activeCount}</span>}
+          {onClose && (
+            <button type="button" ref={backButtonRef} className="cases-list-back" onClick={onClose}>
+              Zurück zur Karte
+              <ChevronDownIcon size={14} />
             </button>
           )}
         </div>

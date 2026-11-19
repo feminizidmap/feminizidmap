@@ -40,3 +40,11 @@ export function ChevronUpIcon({ size = 14 }) {
     </Icon>
   );
 }
+
+export function ChevronDownIcon({ size = 14 }) {
+  return (
+    <Icon size={size} strokeWidth={2.6}>
+      <path d="M6 9l6 6 6-6" />
+    </Icon>
+  );
+}
