@@ -102,6 +102,24 @@
   border: 2px solid #fff;
 }
 
+.cases-list-back {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 14px;
+  border: 2px solid #000;
+  background: #000;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.cases-list-back:hover {
+  background: #222;
+}
+
 .cases-list-scroll {
   flex: 1;
   min-height: 0;
@@ -911,19 +929,11 @@
 
   .case-panel-footer {
     flex: none;
+    display: flex;
+    justify-content: flex-start;
     padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
     background: #fff;
     border-top: 1px solid #000;
-  }
-
-  .case-panel-back {
-    width: 100%;
-    height: 48px;
-    border: 0;
-    background: #000;
-    color: #fff;
-    font-size: 1.1rem;
-    font-weight: 800;
   }
 
   /* Keep the map attribution visible above the bottom bar */

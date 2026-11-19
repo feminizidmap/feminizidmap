@@ -8,7 +8,7 @@ import { layers, namedFlavor } from "@protomaps/basemaps";
 import "maplibre-gl/dist/maplibre-gl.css";
 import CaseList, { LIST_PAGE_SIZE } from "./CaseList";
 import FilterPanel from "./FilterPanel";
-import { ResetViewIcon } from "./MapIcons";
+import { FunnelIcon, ResetViewIcon } from "./MapIcons";
 import MobileCaseBar from "./MobileCaseBar";
 import { FilterChipBar, MobileFilterSheet } from "./MobileFilters";
 import useMediaQuery from "./useMediaQuery";
@@ -781,19 +781,20 @@ export default function CasesMap({
           onToggleCase={toggleOpenCase}
           onMore={() => setListLimit((limit) => limit + LIST_PAGE_SIZE)}
           onReset={resetFilters}
-          onOpenFilters={isDesktop ? undefined : () => setSheetOpen(true)}
-          filterOpen={sheetOpen}
-          activeCount={activeCount}
+          onClose={isDesktop ? undefined : () => setCasePanelOpen(false)}
+          backButtonRef={casePanelCloseRef}
         />
         {isDesktop === false && (
           <footer className="case-panel-footer">
             <button
-              ref={casePanelCloseRef}
               type="button"
-              className="case-panel-back"
-              onClick={() => setCasePanelOpen(false)}
+              className={`cases-list-filter${sheetOpen ? " is-active" : ""}`}
+              aria-expanded={sheetOpen}
+              onClick={() => setSheetOpen(true)}
             >
-              Zurück zur Karte
+              <FunnelIcon size={18} />
+              Filter
+              {activeCount > 0 && <span className="filter-badge">{activeCount}</span>}
             </button>
           </footer>
         )}
