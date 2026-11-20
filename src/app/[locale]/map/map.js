@@ -149,9 +149,9 @@ export default function CasesMap({
   const { bounds, from, to, filteredCases, states, types, attempt, gender, activeCount, filters, resetFilters } =
     useCaseFilters(casesWithCoordinates);
 
-  const summary = [rangeLabel(from, to, bounds), statesLabel(states), ...facetLabels({ types, attempt, gender })].join(
-    " · "
-  );
+  // Mobile case bar: the period sits next to the case count, the other filters go on the second line.
+  const rangeSummary = rangeLabel(from, to, bounds);
+  const summary = [statesLabel(states), ...facetLabels({ types, attempt, gender })].join(" · ");
 
   const casesById = useMemo(() => {
     const index = new Map();
@@ -589,6 +589,7 @@ export default function CasesMap({
           status={status}
           filteredCount={filteredCases.length}
           selectionCount={selection ? selection.cases.length : null}
+          range={rangeSummary}
           summary={summary}
           activeCount={activeCount}
           filterOpen={sheetOpen}
@@ -626,6 +627,7 @@ export default function CasesMap({
             status={status}
             filteredCount={filteredCases.length}
             selectionCount={selection ? selection.cases.length : null}
+            range={rangeSummary}
             summary={summary}
             activeCount={activeCount}
             filterOpen={sheetOpen}

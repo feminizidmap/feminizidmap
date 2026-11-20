@@ -189,8 +189,17 @@
   min-width: 0;
 }
 
+/* Row 1: case count, then the period in the same style as the other filter values (row 2). */
+.mobile-case-bar-line {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+
 .mobile-case-bar-text b {
   display: block;
+  flex: none;
   font-size: 1.25rem;
   font-weight: 800;
   letter-spacing: -0.01em;
@@ -199,12 +208,18 @@
 
 .mobile-case-bar-text span {
   display: block;
+  min-width: 0;
   margin-top: 2px;
   font-size: 0.9rem;
   color: #555;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.mobile-case-bar-line span {
+  flex: 1 1 auto;
+  margin-top: 0;
 }
 
 .mobile-case-bar-clear {

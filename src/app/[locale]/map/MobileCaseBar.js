@@ -14,6 +14,7 @@ const MobileCaseBar = forwardRef(function MobileCaseBar(
     status,
     filteredCount,
     selectionCount,
+    range,
     summary,
     activeCount,
     filterOpen,
@@ -40,7 +41,10 @@ const MobileCaseBar = forwardRef(function MobileCaseBar(
   return (
     <div className={`mobile-case-bar${view === "list" ? " is-in-panel" : ""}`} ref={ref}>
       <div className="mobile-case-bar-text">
-        <b>{title}</b>
+        <div className="mobile-case-bar-line">
+          <b>{title}</b>
+          {status === "ready" && !hasSelection && <span>{range}</span>}
+        </div>
         {status === "ready" && <span>{sub}</span>}
       </div>
       {hasSelection && view === "map" && (
