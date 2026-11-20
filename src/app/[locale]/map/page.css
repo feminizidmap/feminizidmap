@@ -130,7 +130,7 @@
     height: auto;
   }
 
-  /* Full-screen case panel; slides up over the map and stays mounted (scroll position, open cards). */
+  /* Full-screen case panel over the map; switches instantly and stays mounted (scroll position, open cards). */
   .cases-list-panel {
     position: absolute;
     top: env(safe-area-inset-top, 0px);
@@ -141,15 +141,11 @@
     height: auto;
     padding: 0;
     background: #f5f5f5;
-    transform: translateY(100%);
     visibility: hidden;
-    transition: transform 0.28s cubic-bezier(0.4, 0, 1, 1), visibility 0s linear 0.28s;
   }
 
   .cases-list-panel.is-open {
-    transform: none;
     visibility: visible;
-    transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
 
   /* Top stays clean: the count lives in the bottom bar, same as under the map. */
