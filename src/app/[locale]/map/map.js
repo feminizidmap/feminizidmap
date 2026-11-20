@@ -590,6 +590,9 @@ export default function CasesMap({
           filteredCount={filteredCases.length}
           selectionCount={selection ? selection.cases.length : null}
           summary={summary}
+          activeCount={activeCount}
+          filterOpen={sheetOpen}
+          onOpenFilters={() => setSheetOpen(true)}
           onOpenList={() => setCasePanelOpen(true)}
           onClearSelection={() => setSelection(null)}
         />

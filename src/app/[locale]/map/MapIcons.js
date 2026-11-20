@@ -33,6 +33,17 @@ export function ResetViewIcon({ size = 16 }) {
   );
 }
 
+export function ListIcon({ size = 20 }) {
+  return (
+    <Icon size={size} strokeWidth={2.2}>
+      <path d="M9 6h11M9 12h11M9 18h11" />
+      <circle cx="4.5" cy="6" r="1" fill="currentColor" />
+      <circle cx="4.5" cy="12" r="1" fill="currentColor" />
+      <circle cx="4.5" cy="18" r="1" fill="currentColor" />
+    </Icon>
+  );
+}
+
 export function ChevronUpIcon({ size = 14 }) {
   return (
     <Icon size={size} strokeWidth={2.6}>
