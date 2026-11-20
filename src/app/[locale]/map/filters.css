@@ -747,13 +747,15 @@
 .mobile-filter-apply {
   flex: 1;
   height: 48px;
-  border: 0;
-  background: #802993;
+  border: 2px solid #000;
+  background: #000;
   color: #fff;
   font-size: 1.1rem;
   font-weight: 800;
 }
 
-.mobile-filter-apply:hover {
-  background: #6d237d;
+.mobile-filter-apply:hover,
+.mobile-filter-apply:focus-visible {
+  background: #fff;
+  color: #000;
 }
