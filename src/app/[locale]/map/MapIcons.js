@@ -33,6 +33,15 @@ export function ResetViewIcon({ size = 16 }) {
   );
 }
 
+export function MapIcon({ size = 20 }) {
+  return (
+    <Icon size={size} strokeWidth={2}>
+      <path d="M9 4 3 6.5v13.5l6-2.5 6 2.5 6-2.5V4l-6 2.5z" />
+      <path d="M9 4v13.5M15 6.5V20" />
+    </Icon>
+  );
+}
+
 export function ListIcon({ size = 20 }) {
   return (
     <Icon size={size} strokeWidth={2.2}>

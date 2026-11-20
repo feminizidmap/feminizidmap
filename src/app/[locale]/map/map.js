@@ -8,7 +8,7 @@ import { layers, namedFlavor } from "@protomaps/basemaps";
 import "maplibre-gl/dist/maplibre-gl.css";
 import CaseList, { LIST_PAGE_SIZE } from "./CaseList";
 import FilterPanel from "./FilterPanel";
-import { FunnelIcon, ResetViewIcon } from "./MapIcons";
+import { ResetViewIcon } from "./MapIcons";
 import MobileCaseBar from "./MobileCaseBar";
 import { FilterChipBar, MobileFilterSheet } from "./MobileFilters";
 import useCaseFilters, { sortCasesByDateDesc } from "./useCaseFilters";
@@ -593,7 +593,7 @@ export default function CasesMap({
           activeCount={activeCount}
           filterOpen={sheetOpen}
           onOpenFilters={() => setSheetOpen(true)}
-          onOpenList={() => setCasePanelOpen(true)}
+          onToggleView={() => setCasePanelOpen(true)}
           onClearSelection={() => setSelection(null)}
         />
       )}
@@ -617,22 +617,21 @@ export default function CasesMap({
           onToggleCase={toggleOpenCase}
           onMore={() => setListLimit((limit) => limit + LIST_PAGE_SIZE)}
           onReset={resetFilters}
-          onClose={isDesktop ? undefined : () => setCasePanelOpen(false)}
-          backButtonRef={casePanelCloseRef}
         />
+        {/* Mobile: the same bar as under the map; its right button switches back to the map. */}
         {isDesktop === false && (
-          <footer className="case-panel-footer">
-            <button
-              type="button"
-              className={`cases-list-filter${sheetOpen ? " is-active" : ""}`}
-              aria-expanded={sheetOpen}
-              onClick={() => setSheetOpen(true)}
-            >
-              <FunnelIcon size={18} />
-              Filter
-              {activeCount > 0 && <span className="filter-badge">{activeCount}</span>}
-            </button>
-          </footer>
+          <MobileCaseBar
+            view="list"
+            toggleRef={casePanelCloseRef}
+            status={status}
+            filteredCount={filteredCases.length}
+            selectionCount={selection ? selection.cases.length : null}
+            summary={summary}
+            activeCount={activeCount}
+            filterOpen={sheetOpen}
+            onOpenFilters={() => setSheetOpen(true)}
+            onToggleView={() => setCasePanelOpen(false)}
+          />
         )}
       </aside>
 
