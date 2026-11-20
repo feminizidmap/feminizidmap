@@ -738,10 +738,32 @@
   border-top: 1px solid #000;
 }
 
-.mobile-filter-sheet-footer .link-button {
-  min-height: 44px;
-  padding: 0 0.25rem;
-  font-size: 0.95rem;
+/* Reset: an accent-coloured button next to the black "N Fälle anzeigen". */
+.mobile-filter-reset {
+  flex: none;
+  height: 48px;
+  padding: 0 18px;
+  border: 2px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.mobile-filter-reset:hover,
+.mobile-filter-reset:focus-visible {
+  background: #fff;
+  color: var(--accent);
+}
+
+.mobile-filter-reset:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.mobile-filter-reset:disabled:hover {
+  background: var(--accent);
+  color: #fff;
 }
 
 .mobile-filter-apply {

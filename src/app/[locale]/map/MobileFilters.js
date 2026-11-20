@@ -150,7 +150,7 @@ export function MobileFilterSheet({ filters, open, onClose }) {
         </div>
 
         <footer className="mobile-filter-sheet-footer">
-          <button type="button" className="link-button" disabled={activeCount === 0} onClick={onReset}>
+          <button type="button" className="mobile-filter-reset" disabled={activeCount === 0} onClick={onReset}>
             Zurücksetzen
           </button>
           {/* Filters apply live; this button only closes the sheet. */}
