@@ -150,7 +150,7 @@ export default function CasesMap({
     useCaseFilters(casesWithCoordinates);
 
   // Mobile case bar: the period sits next to the case count, the other filters go on the second line.
-  const rangeSummary = rangeLabel(from, to, bounds);
+  const rangeSummary = rangeLabel(from, to, bounds, { exact: true });
   const summary = [statesLabel(states), ...facetLabels({ types, attempt, gender })].join(" · ");
 
   const casesById = useMemo(() => {

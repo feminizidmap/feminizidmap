@@ -108,8 +108,9 @@ export function isFullRange(from, to, bounds) {
   return !bounds || (from === bounds.min && to === bounds.max);
 }
 
-export function rangeLabel(from, to, bounds) {
-  if (isFullRange(from, to, bounds)) {
+// exact: never collapse the full data range to "Alle Jahre" (the mobile case bar always names the period).
+export function rangeLabel(from, to, bounds, { exact = false } = {}) {
+  if (!exact && isFullRange(from, to, bounds)) {
     return "Alle Jahre";
   }
   if (from % 12 === 0 && to % 12 === 11) {
