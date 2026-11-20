@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { AttemptSwitch, FacetToggleGrid, StateToggleGrid, YearPresets } from "./FilterControls";
-import { FunnelIcon } from "./MapIcons";
+import { FunnelIcon, ResetIcon } from "./MapIcons";
 import MonthRangeSlider from "./MonthRangeSlider";
 import {
   ATTEMPT_CHIP_LABELS,
@@ -96,8 +96,15 @@ export function MobileFilterSheet({ filters, open, onClose }) {
         <div className="sheet-grab" />
         <header className="mobile-filter-sheet-header">
           <h2>Filter</h2>
-          <button type="button" className="mobile-filter-sheet-close" aria-label="Filter schliessen" onClick={onClose}>
-            ×
+          <button
+            type="button"
+            className="mobile-filter-reset"
+            aria-label="Filter zurücksetzen"
+            title="Filter zurücksetzen"
+            disabled={activeCount === 0}
+            onClick={onReset}
+          >
+            <ResetIcon size={22} />
           </button>
         </header>
 
@@ -150,9 +157,6 @@ export function MobileFilterSheet({ filters, open, onClose }) {
         </div>
 
         <footer className="mobile-filter-sheet-footer">
-          <button type="button" className="mobile-filter-reset" disabled={activeCount === 0} onClick={onReset}>
-            Zurücksetzen
-          </button>
           {/* Filters apply live; this button only closes the sheet. */}
           <button type="button" className="mobile-filter-apply" onClick={onClose}>
             {filteredCount} {filteredCount === 1 ? "Fall" : "Fälle"} anzeigen

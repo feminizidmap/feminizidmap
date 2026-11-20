@@ -33,6 +33,15 @@ export function ResetViewIcon({ size = 16 }) {
   );
 }
 
+export function ResetIcon({ size = 20 }) {
+  return (
+    <Icon size={size} strokeWidth={2.4}>
+      <path d="M3 12a9 9 0 1 0 3-6.7" />
+      <path d="M3 3v5h5" />
+    </Icon>
+  );
+}
+
 export function MapIcon({ size = 20 }) {
   return (
     <Icon size={size} strokeWidth={2}>

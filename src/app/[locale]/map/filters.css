@@ -602,18 +602,6 @@
   color: #000;
 }
 
-.mobile-filter-sheet-close {
-  width: 44px;
-  height: 44px;
-  margin-right: -10px;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: #000;
-  font-size: 1.8rem;
-  line-height: 1;
-}
-
 .mobile-filter-sheet-body {
   flex: 1;
   min-height: 0;
@@ -738,16 +726,18 @@
   border-top: 1px solid #000;
 }
 
-/* Reset: an accent-coloured button next to the black "N Fälle anzeigen". */
+/* Reset: a square accent icon button in the sheet header. */
 .mobile-filter-reset {
   flex: none;
-  height: 48px;
-  padding: 0 18px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: 2px solid var(--accent);
   background: var(--accent);
   color: #fff;
-  font-size: 1rem;
-  font-weight: 800;
 }
 
 .mobile-filter-reset:hover,
@@ -768,6 +758,7 @@
 
 .mobile-filter-apply {
   flex: 1;
+  width: 100%;
   height: 48px;
   border: 2px solid #000;
   background: #000;
