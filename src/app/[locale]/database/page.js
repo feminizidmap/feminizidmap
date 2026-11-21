@@ -3,14 +3,11 @@ import "./page.css";
 import CasesList from "./CasesList";
 import PageHeader from "@/app/PageHeader";
 import { getDictionary } from "@/i18n";
-import { getCases } from "@/services/api";
-
-async function getData() {
-  return getCases();
-}
+import { readCasesSnapshot } from "@/services/cases-snapshot";
 
 export default async function Page({ params: { locale } }) {
-  const data = await getData();
+  // Same build snapshot as the map (public/data/cases.json).
+  const data = await readCasesSnapshot();
   const t = getDictionary(locale).database;
 
   return <>

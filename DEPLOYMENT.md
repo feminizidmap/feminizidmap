@@ -2,7 +2,9 @@
 
 Static export. `yarn build` copies the Strapi uploads the content references into `public/uploads/` and
 prerenders all pages into `out/`. Strapi is only needed **at build time**. Content and media change on the
-live site only after a rebuild. The map loads cases from `NEXT_PUBLIC_CASES_URL` in the browser.
+live site only after a rebuild. The case dataset (`NEXT_PUBLIC_CASES_URL`) is snapshotted into `public/data/cases.json`
+at build time and shared by map and database, so the deployed site never calls an API. **Case updates need a
+rebuild too.**
 
 ## One-time setup
 
@@ -32,7 +34,7 @@ public role can read the content. Then run `yarn build` and serve `out/` (e.g. `
 |---|---|
 | `NEXT_PUBLIC_STRAPI_URL` | Strapi base URL for content and uploads (default `https://backend.feminizidmap.org`) |
 | `STRAPI_API_TOKEN` | read-only token for content requests. Secret, never prefix with `NEXT_PUBLIC_` |
-| `NEXT_PUBLIC_CASES_URL` | full URL of the case dataset (default `https://api.feminizidmap.org/cases`) |
+| `NEXT_PUBLIC_CASES_URL` | full URL of the case dataset, read at build time only (default `https://api.feminizidmap.org/cases`) |
 
 All of them are read at build time. Changing them later has no effect without a rebuild.
 

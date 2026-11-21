@@ -1,13 +1,14 @@
 import { CONTENT_PATHS, STRAPI_URL, localizeUploads, strapiHeaders } from "./strapi.mjs";
 
-const CASES_URL = process.env.NEXT_PUBLIC_CASES_URL || "https://api.feminizidmap.org/cases";
 const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
-export async function getCases() {
-  const response = await fetch(CASES_URL);
+// Case snapshot from the build (scripts/fetch-media.mjs → public/data/cases.json), loaded in the browser.
+// Same origin, so the deployed site never calls the case API. Server components use readCasesSnapshot().
+export async function loadCases() {
+  const response = await fetch(`${BASE_PATH}/data/cases.json`);
 
   if (!response.ok) {
-    throw new Error(`API error: ${response.status} ${response.statusText}`);
+    throw new Error(`Case data error: ${response.status} ${response.statusText}`);
   }
 
   return response.json();

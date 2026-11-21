@@ -13,7 +13,7 @@ import MobileCaseBar from "./MobileCaseBar";
 import { FilterChipBar, MobileFilterSheet } from "./MobileFilters";
 import useCaseFilters, { sortCasesByDateDesc } from "./useCaseFilters";
 import useMediaQuery from "./useMediaQuery";
-import { getCases } from "@/services/api";
+import { loadCases } from "@/services/api";
 import { facetLabels, rangeLabel, statesLabel } from "./filterUtils";
 
 let protocolRegistered = false;
@@ -123,7 +123,7 @@ export default function CasesMap({
   useEffect(() => {
     let cancelled = false;
 
-    getCases()
+    loadCases()
       .then(({ data }) => {
         if (cancelled) return;
         setCases(data ?? []);
