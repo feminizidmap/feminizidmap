@@ -6,7 +6,7 @@ export const defaultLocale = "de";
 const dictionaries = {
   de: {
     meta: {
-      description: "Ein Rechercheprojekt zu Femi(ni)ziden in Deutschland",
+      description: "Monitoringstelle für Femi(ni)zide in Deutschland e.V.",
     },
     nav: {
       home: "Start",
@@ -52,7 +52,7 @@ const dictionaries = {
       dataprotection: "Datenschutzhinweise",
     },
     home: {
-      fallbackTitle: "Ein Rechercheprojekt zu Femi(ni)ziden in Deutschland",
+      fallbackTitle: "Monitoringstelle für Femi(ni)zide in Deutschland e.V.",
       fallbackText: [
         "Wir dokumentieren alle Tötungen von Frauen* durch Männer in Deutschland und entwickeln eine Online-Datenbank zu Femi(ni)ziden, der Tötung von Frauen*, weil sie Frauen* sind.",
         "Lies mehr über das Projekt und die Definitionen von Femi(ni)ziden.",
@@ -120,7 +120,7 @@ const dictionaries = {
   },
   en: {
     meta: {
-      description: "A research project on femi(ni)cides in Germany",
+      description: "Monitoring Center for Femi(ni)cides in Germany e.V.",
     },
     nav: {
       home: "Home",
@@ -166,7 +166,7 @@ const dictionaries = {
       dataprotection: "Data protection",
     },
     home: {
-      fallbackTitle: "A research project on femi(ni)cides in Germany",
+      fallbackTitle: "Monitoring Center for Femi(ni)cides in Germany e.V.",
       fallbackText: [
         "We document all murders of women* by men in Germany and we develop an online database on femi(ni)cide, the killing of women* because they are women*.",
         "Read more about the project and the definitions of femi(ni)cides.",
