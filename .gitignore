@@ -39,3 +39,6 @@ next-env.d.ts
 
 iframe-harness/
 designs/
+
+# Strapi uploads copied in by scripts/fetch-media.mjs
+/public/uploads/

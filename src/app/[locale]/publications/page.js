@@ -1,28 +1,13 @@
-import Link from "next/link";
 import "./publications.css";
 import PageHeader from "@/app/PageHeader";
 import { getPublications, getReports } from "@/services/api";
 import { formatDate } from "@/app/caseFormat";
-import { getDictionary, localePath } from "@/i18n";
+import { getDictionary } from "@/i18n";
 
-const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || "";
-
-// First link to a PDF inside a Strapi blocks field.
-function findPdfLink(blocks) {
-  for (const block of blocks ?? []) {
-    if (block.type === "link" && /\.pdf($|\?)/i.test(block.url || "")) return block.url;
-    const nested = findPdfLink(block.children);
-    if (nested) return nested;
-  }
-  return null;
-}
-
-// The report PDF for the page's locale: a `pdf` media field if the report has one
-// (Strapi localizes it per locale), otherwise the first PDF linked in the report text.
+// Reports are published as PDFs only: the first PDF in the `report_files` media field
+// (Strapi localizes it per locale). Upload URLs already point at the static site's copy (see services/api.js).
 function reportPdf(report) {
-  const url = report.pdf?.url;
-  if (url) return url.startsWith("http") ? url : `${STRAPI_URL}${url}`;
-  return findPdfLink(report.content);
+  return report.report_files?.find((f) => f.mime === "application/pdf" || /\.pdf$/i.test(f.url || ""))?.url ?? null;
 }
 
 function DownloadIcon() {
@@ -44,10 +29,10 @@ function ReportCard({ report, locale, t }) {
       <div className="report-body">
         {formatDate(report.date) && <span className="report-date">{t.published} {formatDate(report.date)}</span>}
         <h3 className="report-title">
-          <Link href={localePath(locale, `/reports/${report.documentId}`)}>{report.title}</Link>
+          {pdf ? <a href={pdf} download hrefLang={locale}>{report.title}</a> : report.title}
         </h3>
       </div>
-      {pdf ? (
+      {pdf && (
         <a className="report-download" href={pdf} download hrefLang={locale}>
           <span>
             <span className="report-download-label">{t.download}</span>
@@ -55,11 +40,6 @@ function ReportCard({ report, locale, t }) {
           </span>
           <DownloadIcon />
         </a>
-      ) : (
-        <Link className="report-download" href={localePath(locale, `/reports/${report.documentId}`)}>
-          <span className="report-download-label">{t.readReport}</span>
-          <span aria-hidden="true">→</span>
-        </Link>
       )}
     </article>
   );

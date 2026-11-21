@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "node scripts/fetch-media.mjs --lenient && next dev",
+    "build": "node scripts/fetch-media.mjs && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "fetch-media": "node scripts/fetch-media.mjs"
   },
   "dependencies": {
     "@protomaps/basemaps": "^5.7.0",

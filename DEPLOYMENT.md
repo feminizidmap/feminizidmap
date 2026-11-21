@@ -21,6 +21,13 @@ The old `NEXT_PUBLIC_API_URL` (base URL only) is no longer read.
 
 ## Build notes
 
+- `yarn build` first runs `scripts/fetch-media.mjs`. It copies every Strapi upload the content references (report PDFs,
+  files linked in page texts, images) to `public/uploads/`. The pages link to those copies instead of the Strapi media
+  library, so the deployed site serves its own files. Strapi (`NEXT_PUBLIC_STRAPI_URL`) must be reachable at build
+  time. If a content request or a download fails, **the build fails**, so no dead links ship. Media, like all
+  content, only updates on rebuild. Files no longer referenced are removed from `public/uploads/` (gitignored).
+  `yarn dev` runs the same script with `--lenient`, which only reports failures.
+- Always build with `yarn build` (not `next build` directly), otherwise the uploads are missing.
 - `yarn build` fetches the dataset (`/de/database` and `/en/database` are prerendered), so the endpoint must be reachable from the build machine.
 - `basePath` / `NEXT_PUBLIC_BASE_PATH` is set by the GitHub Pages workflow (`.github/workflows/nextjs.yml`).
   For other hosts, serve `out/` from the domain root or set `basePath` in `next.config.mjs`.

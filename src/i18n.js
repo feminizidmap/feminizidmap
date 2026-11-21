@@ -107,7 +107,6 @@ const dictionaries = {
       published: "Veröffentlicht am",
       download: "Report herunterladen",
       pdfMeta: "PDF · Deutsch",
-      readReport: "Report lesen",
       other: "Veröffentlichungen",
       // Keyed by the Strapi `category` enum value; key order = order on the page.
       categories: {
@@ -221,7 +220,6 @@ const dictionaries = {
       published: "Published",
       download: "Download report",
       pdfMeta: "PDF · English",
-      readReport: "Read the report",
       other: "Other publications",
       categories: {
         feminizidmap_team: "Publications by the Feminizidmap team",
@@ -242,7 +240,7 @@ export function localePath(locale, path = "/") {
   return path === "/" ? `/${locale}` : `/${locale}${path}`;
 }
 
-// Swap the locale prefix of a pathname, e.g. "/de/reports/abc" -> "/en/reports/abc".
+// Swap the locale prefix of a pathname, e.g. "/de/faq" -> "/en/faq".
 export function switchLocalePath(pathname, locale) {
   const rest = (pathname || "/").replace(/^\/(de|en)(?=\/|$)/, "");
   return localePath(locale, rest || "/");
