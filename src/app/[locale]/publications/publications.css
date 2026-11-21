@@ -164,20 +164,20 @@
   list-style: none;
 }
 
+/* Square arrow button, same as the past-event links (.event-row-link in events.css). */
 .pub-links a {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  min-height: 36px;
-  color: var(--accent);
-  font-size: 14px;
-  font-weight: 600;
-  text-decoration: none;
-  white-space: nowrap;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1.5px solid #000;
+  color: #000;
 }
 
 .pub-links a:hover {
-  text-decoration: underline;
+  background: #000;
+  color: #fff;
 }
 
 @media (max-width: 991.98px) {
