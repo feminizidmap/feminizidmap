@@ -110,8 +110,13 @@ export default async function Page({ params: { locale } }) {
   const reports = settledValue(reportsResult, "reports");
   const publications = settledValue(publicationsResult, "publications");
 
-  const project = publications.filter((item) => item.project_related);
-  const further = publications.filter((item) => !item.project_related);
+  // One group per category, in the dictionary's order. Unknown/missing categories land in
+  // "miscellaneous" so an entry never disappears because the frontend lacks its translation.
+  const groups = Object.entries(t.categories).map(([key, title]) => ({ key, title, items: [] }));
+  const fallback = groups.find((group) => group.key === "miscellaneous");
+  for (const item of publications) {
+    (groups.find((group) => group.key === item.category) ?? fallback).items.push(item);
+  }
 
   return <>
     <PageHeader locale={locale} title={t.title} lead={t.lead} />
@@ -131,8 +136,9 @@ export default async function Page({ params: { locale } }) {
         <h2 id="publications-title" className="t-section pub-section-title">{t.other}</h2>
         {publications.length === 0 && <p className="pub-empty">{t.empty}</p>}
         <div className="pub-groups">
-          {project.length > 0 && <PublicationGroup title={t.project} items={project} />}
-          {further.length > 0 && <PublicationGroup title={t.further} items={further} />}
+          {groups.filter((group) => group.items.length > 0).map((group) => (
+            <PublicationGroup key={group.key} title={group.title} items={group.items} />
+          ))}
         </div>
       </section>
     </main>

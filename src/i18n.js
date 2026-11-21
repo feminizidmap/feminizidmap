@@ -109,8 +109,12 @@ const dictionaries = {
       pdfMeta: "PDF · Deutsch",
       readReport: "Report lesen",
       other: "Veröffentlichungen",
-      project: "Gemeinsame Veröffentlichungen des Teams",
-      further: "Weitere Veröffentlichungen",
+      // Keyed by the Strapi `category` enum value; key order = order on the page.
+      categories: {
+        feminizidmap_team: "Gemeinsame Veröffentlichungen des Teams",
+        external_using_our_data: "Externe Publikationen mit Nutzung von Feminizidmap-Daten",
+        miscellaneous: "Weitere Veröffentlichungen",
+      },
       empty: "Noch keine Veröffentlichungen verfügbar.",
     },
   },
@@ -219,8 +223,11 @@ const dictionaries = {
       pdfMeta: "PDF · English",
       readReport: "Read the report",
       other: "Other publications",
-      project: "Project publications",
-      further: "Further contributions",
+      categories: {
+        feminizidmap_team: "Publications by the Feminizidmap team",
+        external_using_our_data: "External publications using Feminizidmap data",
+        miscellaneous: "Further publications",
+      },
       empty: "No publications available yet.",
     },
   },
