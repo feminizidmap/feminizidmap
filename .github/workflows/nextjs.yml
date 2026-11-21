@@ -77,6 +77,12 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+      # DEBUG: remove once the build gets its Strapi token. GitHub masks the secret, so a set token prints as ***.
+      - name: DEBUG Strapi token
+        run: |
+          echo "STRAPI_API_TOKEN=${STRAPI_API_TOKEN}"
+          echo "STRAPI_API_TOKEN length=${#STRAPI_API_TOKEN}"
+          echo "NEXT_PUBLIC_STRAPI_URL=${NEXT_PUBLIC_STRAPI_URL}"
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.manager }} run build
       - name: Upload artifact
