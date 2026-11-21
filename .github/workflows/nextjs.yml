@@ -29,7 +29,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-        NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL }}
+        NEXT_PUBLIC_STRAPI_URL: ${{ vars.NEXT_PUBLIC_STRAPI_URL }}
+        STRAPI_API_TOKEN: ${{ secrets.STRAPI_API_TOKEN }}
         NEXT_PUBLIC_CASES_URL: ${{ vars.NEXT_PUBLIC_CASES_URL }}
     steps:
       - name: Checkout

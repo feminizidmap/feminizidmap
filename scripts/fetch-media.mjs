@@ -17,7 +17,7 @@ const dev = process.argv.includes("--lenient");
 nextEnv.loadEnvConfig(root, dev);
 
 // Import after loading .env, so NEXT_PUBLIC_STRAPI_URL is set.
-const { CONTENT_PATHS, STRAPI_URL, UPLOADS_DIR, collectUploads } = await import("../src/services/strapi.mjs");
+const { CONTENT_PATHS, STRAPI_URL, UPLOADS_DIR, collectUploads, strapiHeaders } = await import("../src/services/strapi.mjs");
 
 const LOCALES = ["de", "en"];
 const targetDir = path.join(root, "public", UPLOADS_DIR);
@@ -29,7 +29,7 @@ async function fetchContent() {
 
   await Promise.all([...paths].map(async (apiPath) => {
     try {
-      const response = await fetch(`${STRAPI_URL}${apiPath}`);
+      const response = await fetch(`${STRAPI_URL}${apiPath}`, { headers: strapiHeaders() });
       if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
       collectUploads((await response.json()).data, uploads);
     } catch (error) {

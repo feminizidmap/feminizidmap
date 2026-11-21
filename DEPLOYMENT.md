@@ -1,34 +1,43 @@
-# Deployment
+# Deployment (GitHub Pages)
 
-The app is a static export (`output: 'export'`). `yarn build` writes the site to `out/`.
+Static export. `yarn build` copies the Strapi uploads the content references into `public/uploads/` and
+prerenders all pages into `out/`. Strapi is only needed **at build time**. Content and media change on the
+live site only after a rebuild. The map loads cases from `NEXT_PUBLIC_CASES_URL` in the browser.
 
-## Environment
+## One-time setup
 
-`NEXT_PUBLIC_*` variables are baked in at **build time**. Changing them after the build has no effect, so every
-instance (e.g. regular map vs. preview) needs its own build.
+1. **Strapi admin** (prod) → Settings → API Tokens → new token `github-pages-build`, type *Custom*,
+   only `find` on: home, about, faq, imprint, dataprotection, report, team-member, event-item, publication-item.
+2. **nginx** (`ansible-feminizidmap`): `feminizidmap_strapi_token_content_paths` in
+   `host_vars/backend.feminizidmap.org.yml` opens exactly these `/api/…` paths for GET requests with a token. Deploy the nginx role.
+3. **GitHub** repo → Settings → Secrets and variables → Actions:
+   - secret `STRAPI_API_TOKEN` = the token
+   - variable `NEXT_PUBLIC_STRAPI_URL` = `https://backend.feminizidmap.org`
+   - variable `NEXT_PUBLIC_CASES_URL` = `https://api.feminizidmap.org/cases`
+4. GitHub → Settings → Pages → Source: *GitHub Actions*.
 
-| Variable                | Required | Default                               | Purpose                                 |
-|-------------------------|----------|---------------------------------------|-----------------------------------------|
-| `NEXT_PUBLIC_CASES_URL` | no       | `https://api.feminizidmap.org/cases`  | Full URL of the dataset endpoint        |
+## Deploy
 
-Set the **full** URL, including the path. Example:
+Push to a branch listed in `.github/workflows/nextjs.yml`, or Actions → *Deploy Next.js site to Pages* → *Run workflow*.
+**Run it again after content changes in Strapi.**
 
-```bash
-NEXT_PUBLIC_CASES_URL="https://api.feminizidmap.org/cases-public-preview-2026" yarn build
-```
+## Local build
 
-The old `NEXT_PUBLIC_API_URL` (base URL only) is no longer read.
+Copy `.env.example` to `.env` and set `NEXT_PUBLIC_STRAPI_URL=http://localhost:1337`. A token is optional locally as long as the
+public role can read the content. Then run `yarn build` and serve `out/` (e.g. `npx serve out`).
 
-## Build notes
+## Variables
 
-- `yarn build` first runs `scripts/fetch-media.mjs`. It copies every Strapi upload the content references (report PDFs,
-  files linked in page texts, images) to `public/uploads/`. The pages link to those copies instead of the Strapi media
-  library, so the deployed site serves its own files. Strapi (`NEXT_PUBLIC_STRAPI_URL`) must be reachable at build
-  time. If a content request or a download fails, **the build fails**, so no dead links ship. Media, like all
-  content, only updates on rebuild. Files no longer referenced are removed from `public/uploads/` (gitignored).
-  `yarn dev` runs the same script with `--lenient`, which only reports failures.
-- Always build with `yarn build` (not `next build` directly), otherwise the uploads are missing.
-- `yarn build` fetches the dataset (`/de/database` and `/en/database` are prerendered), so the endpoint must be reachable from the build machine.
-- `basePath` / `NEXT_PUBLIC_BASE_PATH` is set by the GitHub Pages workflow (`.github/workflows/nextjs.yml`).
-  For other hosts, serve `out/` from the domain root or set `basePath` in `next.config.mjs`.
-- The GitHub Pages workflow doesn't set `NEXT_PUBLIC_CASES_URL`, so it uses the default.
+| Name | Purpose |
+|---|---|
+| `NEXT_PUBLIC_STRAPI_URL` | Strapi base URL for content and uploads (default `https://backend.feminizidmap.org`) |
+| `STRAPI_API_TOKEN` | read-only token for content requests. Secret, never prefix with `NEXT_PUBLIC_` |
+| `NEXT_PUBLIC_CASES_URL` | full URL of the case dataset (default `https://api.feminizidmap.org/cases`) |
+
+All of them are read at build time. Changing them later has no effect without a rebuild.
+
+## Pitfalls
+
+- Use `yarn build`, not `next build`. Otherwise `scripts/fetch-media.mjs` doesn't run and the uploads are missing.
+- If a content request or a download fails, the build **fails** on purpose, so no dead links ship. `yarn dev` only warns.
+- `basePath` is injected by `actions/configure-pages`. For other hosts, serve `out/` from the domain root.

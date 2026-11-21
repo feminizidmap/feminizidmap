@@ -1,4 +1,4 @@
-import { CONTENT_PATHS, STRAPI_URL, localizeUploads } from "./strapi.mjs";
+import { CONTENT_PATHS, STRAPI_URL, localizeUploads, strapiHeaders } from "./strapi.mjs";
 
 const CASES_URL = process.env.NEXT_PUBLIC_CASES_URL || "https://api.feminizidmap.org/cases";
 const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
@@ -16,7 +16,7 @@ export async function getCases() {
 // GET a Strapi REST path and return its `data`. Returns null on 404 when `allowNotFound` is set.
 // Upload URLs are rewritten to the copies in the static site (scripts/fetch-media.mjs).
 async function strapiGet(path, { allowNotFound = false } = {}) {
-  const response = await fetch(`${STRAPI_URL}${path}`);
+  const response = await fetch(`${STRAPI_URL}${path}`, { headers: strapiHeaders() });
 
   if (allowNotFound && response.status === 404) {
     return null;

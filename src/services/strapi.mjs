@@ -1,7 +1,15 @@
 // Shared by the app (src/services/api.js) and scripts/fetch-media.mjs, so it is plain ESM
 // without Next.js aliases.
 
-export const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || "https://api.feminizidmap.org";
+export const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || "https://backend.feminizidmap.org";
+
+// Read-only Strapi API token for the build (prod only lets content requests through with one).
+// Deliberately not NEXT_PUBLIC_: Next only inlines NEXT_PUBLIC_ variables into browser code, so
+// the token stays on the build machine. Without it (local Strapi, public role) no header is sent.
+export function strapiHeaders() {
+  const token = process.env.STRAPI_API_TOKEN;
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
 
 // Strapi REST paths the site renders. scripts/fetch-media.mjs scans these for uploads.
 export const CONTENT_PATHS = {
@@ -21,7 +29,7 @@ export const CONTENT_PATHS = {
 // Uploads are copied into the static site at /uploads (see scripts/fetch-media.mjs).
 export const UPLOADS_DIR = "uploads";
 
-const STRAPI_HOSTS = new Set([new URL(STRAPI_URL).host, "api.feminizidmap.org"]);
+const STRAPI_HOSTS = new Set([new URL(STRAPI_URL).host, "backend.feminizidmap.org", "api.feminizidmap.org"]);
 
 // Strapi upload URL → { source: absolute download URL, file: filename on disk, href: path in the static site }.
 // Returns null for anything that isn't a Strapi upload.
