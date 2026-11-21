@@ -102,11 +102,9 @@ const dictionaries = {
     publications: {
       title: "Publikationen",
       lead: "Unsere Reports, Artikel, Interviews und Vorträge zu Femi(ni)ziden in Deutschland.",
-      reports: "Reports",
+      reports: "Offizielle Berichte zu Feminiziden in Deutschland",
       reportsEmpty: "Noch keine Reports verfügbar.",
       published: "Veröffentlicht am",
-      download: "Report herunterladen",
-      pdfMeta: "PDF · Deutsch",
       other: "Veröffentlichungen",
       // Keyed by the Strapi `category` enum value; key order = order on the page.
       categories: {
@@ -115,6 +113,7 @@ const dictionaries = {
         miscellaneous: "Weitere Veröffentlichungen",
       },
       empty: "Noch keine Veröffentlichungen verfügbar.",
+      link: "Link",
     },
   },
   en: {
@@ -215,11 +214,9 @@ const dictionaries = {
     publications: {
       title: "Publications",
       lead: "Our reports, articles, interviews and talks on femi(ni)cides in Germany.",
-      reports: "Reports",
+      reports: "Official reports on feminicides in Germany",
       reportsEmpty: "No reports available yet.",
       published: "Published",
-      download: "Download report",
-      pdfMeta: "PDF · English",
       other: "Other publications",
       categories: {
         feminizidmap_team: "Publications by the Feminizidmap team",
@@ -227,6 +224,7 @@ const dictionaries = {
         miscellaneous: "Further publications",
       },
       empty: "No publications available yet.",
+      link: "Link",
     },
   },
 };

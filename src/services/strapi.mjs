@@ -11,7 +11,8 @@ export const CONTENT_PATHS = {
   // Imprint, data protection and publications are not localized.
   imprint: () => "/api/imprint",
   dataprotection: () => "/api/dataprotection",
-  reports: (locale) => `/api/reports?locale=${locale}&populate=*&sort=date:desc&pagination[pageSize]=100`,
+  // populate=* does not reach the media inside the report_files component.
+  reports: (locale) => `/api/reports?locale=${locale}&populate[report_files][populate]=file&sort=report_year:desc&pagination[pageSize]=100`,
   teamMembers: (locale) => `/api/team-members?locale=${locale}&sort=name:asc&pagination[pageSize]=100`,
   events: (locale) => `/api/event-items?locale=${locale}&populate=*&sort=start_date:desc&pagination[pageSize]=100`,
   publications: () => "/api/publication-items?populate=*&pagination[pageSize]=100",
