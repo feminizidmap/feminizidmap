@@ -1,0 +1,276 @@
+.map-page-main {
+  --case-accent: #802993;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* Desktop: once the header is scrolled away, map and case list fill the screen. */
+@media (min-width: 992px) {
+  .map-page-main {
+    flex: none;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 720px;
+  }
+}
+
+.cases-map-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.9fr) minmax(320px, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  gap: 1rem;
+  align-items: stretch;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.cases-map-shell {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  border: none;
+  box-shadow: none;
+  background: #ffffff;
+}
+
+.cases-map-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.cases-list-panel {
+  height: 100%;
+  border: none;
+  background: #ffffff;
+  box-shadow: none;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 992px) {
+  .cases-list-panel {
+    background: #fff;
+  }
+}
+
+.cases-map-basemap-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  z-index: 4;
+}
+
+.cases-map-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #ddd;
+  border-top-color: #000;
+  border-radius: 50%;
+  animation: cases-map-spin 0.8s linear infinite;
+}
+
+@keyframes cases-map-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Map action buttons (MapLibre control below the zoom buttons) */
+.cases-map-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.map-action {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 2px solid #000;
+  background: #fff;
+  color: #000;
+}
+
+.map-action:hover:not(:disabled) {
+  background: #f0f0f0;
+}
+
+.map-action:disabled {
+  color: #999;
+  cursor: default;
+  background: #fff;
+}
+
+.maplibregl-ctrl-group {
+  overflow: hidden;
+  border: 2px solid #000 !important;
+  box-shadow: none !important;
+}
+
+@media (max-width: 991.98px) {
+  .cases-map-layout {
+    position: relative;
+    display: block;
+    overflow: hidden;
+  }
+
+  .cases-map-shell {
+    position: absolute;
+    inset: 0;
+    height: auto;
+  }
+
+  /* Full-screen case panel over the map; switches instantly and stays mounted (scroll position, open cards). */
+  .cases-list-panel {
+    position: absolute;
+    top: env(safe-area-inset-top, 0px);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 4;
+    height: auto;
+    padding: 0;
+    background: #f5f5f5;
+    visibility: hidden;
+  }
+
+  .cases-list-panel.is-open {
+    visibility: visible;
+  }
+
+  /* Top stays clean: the count lives in the bottom bar, same as under the map. */
+  .cases-list-panel > .cases-list-header {
+    display: none;
+  }
+
+  .cases-list-panel > .cases-list-empty {
+    padding: 1rem 1rem 0;
+  }
+
+  .cases-list-panel > .cases-list-scroll {
+    padding: 1rem 1rem 1rem;
+  }
+
+  /* Keep the map attribution visible above the bottom bar */
+  .cases-map-shell .maplibregl-ctrl-bottom-left,
+  .cases-map-shell .maplibregl-ctrl-bottom-right {
+    bottom: calc(68px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* Mobile bottom bar below the map */
+.mobile-case-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+  background: #fff;
+  border-top: 2px solid #000;
+  box-shadow: none;
+}
+
+.mobile-case-bar-text {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Row 1: case count, then the period in the same style as the other filter values (row 2). */
+.mobile-case-bar-line {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+
+.mobile-case-bar-text b {
+  display: block;
+  flex: none;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #000;
+}
+
+.mobile-case-bar-text span {
+  display: block;
+  min-width: 0;
+  margin-top: 2px;
+  font-size: 0.9rem;
+  color: #555;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mobile-case-bar-line span {
+  flex: 1 1 auto;
+  margin-top: 0;
+}
+
+.mobile-case-bar-clear {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 2px solid #000;
+  background: #fff;
+  color: #000;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+/* Inside the case panel the bar sits at the bottom of the flex column instead of over the map. */
+.mobile-case-bar.is-in-panel {
+  position: static;
+  flex: none;
+}
+
+/* Square icon buttons: filter (white) and the map/list toggle (black). */
+.mobile-case-bar-icon {
+  position: relative;
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 2px solid #000;
+  background: #fff;
+  color: #000;
+}
+
+.mobile-case-bar-icon.is-primary {
+  background: #000;
+  color: #fff;
+}
+
+.mobile-case-bar-icon:disabled {
+  opacity: 0.5;
+}
+
+.mobile-case-bar-icon .filter-badge {
+  position: absolute;
+  top: -9px;
+  right: -9px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  font-size: 0.75rem;
+  border: 2px solid #fff;
+}

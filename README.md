@@ -20,6 +20,31 @@ You can start editing the page by modifying `app/page.js`. The page auto-updates
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
+## Generating the map tiles (pmtiles)
+
+The map uses `public/germany9.pmtiles`, a vector tile extract rendered with the [`@protomaps/basemaps`](https://github.com/protomaps/basemaps) style (see `src/app/[locale]/map/map.js`). It's cut from the daily Protomaps planet build using the `pmtiles` CLI ([go-pmtiles](https://github.com/protomaps/go-pmtiles)).
+
+1. Install the CLI, e.g. via Homebrew:
+   ```bash
+   brew install protomaps/tap/pmtiles
+   ```
+   or build from source with Go:
+   ```bash
+   go install github.com/protomaps/go-pmtiles/cmd/pmtiles@latest
+   ```
+
+2. Pick a daily planet build from [build.protomaps.com](https://build.protomaps.com) (URLs look like `https://build.protomaps.com/YYYYMMDD.pmtiles`).
+
+3. Extract the Germany region at maxzoom 9, either with a bounding box or a region GeoJSON boundary:
+   ```bash
+   pmtiles extract https://build.protomaps.com/<date>.pmtiles germany9.pmtiles \
+     --maxzoom=9 \
+     --region=germany.geojson
+   ```
+   (a Germany boundary GeoJSON can be exported from sources like [geoBoundaries](https://www.geoboundaries.org/) or [Natural Earth](https://www.naturalearthdata.com/)).
+
+4. Replace `public/germany9.pmtiles` with the new file.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
