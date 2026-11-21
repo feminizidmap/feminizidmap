@@ -1,7 +1,7 @@
 import Navigation from "./Navigation";
 
 // Purple header band with the hands illustration, as on the old site.
-// variant "home": tall hero; "page": subpages; "compact": the map, which needs the height.
+// variant "home": tall hero; "page": subpages; "map": slim bar on phones so the map gets the height.
 export default function PageHeader({ locale, title, lead, variant = "page" }) {
   return (
     <header className={`page-header page-header-${variant}`}>

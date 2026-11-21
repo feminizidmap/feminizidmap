@@ -14,7 +14,7 @@ export default async function Page({ params: { locale } }) {
   const t = getDictionary(locale).database;
 
   return <>
-    <PageHeader locale={locale} variant="compact" title={t.title} lead={t.lead} />
+    <PageHeader locale={locale} title={t.title} lead={t.lead} />
     <main className="page-body">
       <CasesList cases={data} />
     </main>

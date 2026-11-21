@@ -207,11 +207,6 @@ h1, h2, h3, h4 {
   }
 }
 
-.page-header-compact {
-  gap: var(--space-6);
-  padding-bottom: var(--space-6);
-}
-
 .page-header-text {
   display: flex;
   flex-direction: column;
@@ -231,10 +226,6 @@ h1, h2, h3, h4 {
   max-width: 1000px;
   font-size: clamp(52px, 6.5vw, 96px);
   line-height: 1.08;
-}
-
-.page-header-compact .page-header-title {
-  font-size: clamp(36px, 4vw, 56px);
 }
 
 .page-header-lead {
