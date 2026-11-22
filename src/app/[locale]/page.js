@@ -2,26 +2,53 @@ import Link from "next/link";
 import "./home.css";
 import BlocksContent from "@/app/BlocksContent";
 import PageHeader from "@/app/PageHeader";
-import { blocksToText } from "@/app/caseFormat";
-import { getEvents, getHome } from "@/services/api";
+import { publicationYear, sortByYearDesc } from "@/app/publicationUtils";
+import { getEvents, getHome, getPublications, getReports } from "@/services/api";
 import { getDictionary, localePath } from "@/i18n";
 
-// A paragraph that holds nothing but one link ("Download our report …") becomes a card.
+// Paragraphs that hold nothing but one link were the old Hugo download links ("Download our report …").
+// The cards below now come from reports and publications, so those paragraphs are left out of the text.
 function linkOnly(block) {
-  if (block.type !== "paragraph") return null;
+  if (block.type !== "paragraph") return false;
   const parts = block.children.filter((child) => child.type === "link" || child.text?.trim());
-  return parts.length === 1 && parts[0].type === "link" ? parts[0] : null;
+  return parts.length === 1 && parts[0].type === "link";
 }
 
-function splitContent(content) {
-  const text = [];
-  const links = [];
-  for (const block of content ?? []) {
-    const link = linkOnly(block);
-    if (link) links.push({ url: link.url, label: blocksToText(link).trim() });
-    else text.push(block);
-  }
-  return { text, links };
+const CARD_COUNT = 4;
+const MAX_REPORT_CARDS = 2;
+
+// Up to two newest reports, filled up with the newest non-report publications to four cards.
+function downloadCards({ reports, publications, locale, t }) {
+  const reportCards = reports.slice(0, MAX_REPORT_CARDS).map((report) => {
+    const file = report.report_files?.find((entry) => entry.file?.url)?.file;
+    return {
+      key: `report-${report.documentId}`,
+      kicker: [t.reportKicker, report.report_year].filter(Boolean).join(" "),
+      title: report.title,
+      href: file?.url ?? localePath(locale, "/publications#reports"),
+      download: Boolean(file),
+      cta: file ? t.download : t.open,
+    };
+  });
+
+  const isReport = (item) => item.tags?.some((tag) => tag.label?.trim().toLowerCase() === "report");
+  const publicationCards = sortByYearDesc(publications)
+    .filter((item) => !isReport(item))
+    .slice(0, CARD_COUNT - reportCards.length)
+    .map((item) => {
+      const url = item.links?.find((link) => link.url)?.url;
+      return {
+        key: `publication-${item.documentId}`,
+        kicker: [item.tags?.[0]?.label, publicationYear(item)].filter(Boolean).join(" · "),
+        title: item.title,
+        small: true,
+        href: url ?? localePath(locale, "/publications#publications"),
+        external: Boolean(url),
+        cta: t.open,
+      };
+    });
+
+  return [...reportCards, ...publicationCards];
 }
 
 function ArrowIcon({ download }) {
@@ -40,13 +67,26 @@ function nextEvent(events) {
 export default async function Page({ params: { locale } }) {
   const dict = getDictionary(locale);
   const t = dict.home;
-  const [homeResult, eventsResult] = await Promise.allSettled([getHome(locale), getEvents(locale)]);
+  const [homeResult, eventsResult, reportsResult, publicationsResult] = await Promise.allSettled([
+    getHome(locale),
+    getEvents(locale),
+    getReports(locale),
+    getPublications(),
+  ]);
   if (homeResult.status === "rejected") console.error("Failed to load home content", homeResult.reason);
   if (eventsResult.status === "rejected") console.error("Failed to load events", eventsResult.reason);
+  if (reportsResult.status === "rejected") console.error("Failed to load reports", reportsResult.reason);
+  if (publicationsResult.status === "rejected") console.error("Failed to load publications", publicationsResult.reason);
 
   const home = homeResult.status === "fulfilled" ? homeResult.value : null;
   const event = nextEvent(eventsResult.status === "fulfilled" ? eventsResult.value : []);
-  const { text, links } = splitContent(home?.content);
+  const text = (home?.content ?? []).filter((block) => !linkOnly(block));
+  const cards = downloadCards({
+    reports: reportsResult.status === "fulfilled" ? reportsResult.value : [],
+    publications: publicationsResult.status === "fulfilled" ? publicationsResult.value : [],
+    locale,
+    t,
+  });
   const date = event && new Date(`${event.start_date}T00:00:00Z`);
   const intl = locale === "en" ? "en-GB" : "de-DE";
   const fmt = (options) => new Intl.DateTimeFormat(intl, { timeZone: "UTC", ...options }).format(date);
@@ -64,24 +104,27 @@ export default async function Page({ params: { locale } }) {
       </section>
 
       <section className="home-section" aria-labelledby="home-downloads">
-        <h2 id="home-downloads" className="home-section-title">{t.downloads}</h2>
-        <div className="home-cards">
-          {links.map((link) => {
-            const pdf = /\.pdf($|\?)/i.test(link.url);
-            return (
-              <a key={link.url} href={link.url} className="home-card" {...(pdf ? { download: true } : {})}>
-                <span className="t-kicker">{pdf ? "PDF" : t.link}</span>
-                <span className="home-card-title">{link.label}</span>
-                <span className="home-card-cta">{pdf ? t.download : t.open} <ArrowIcon download={pdf} /></span>
-              </a>
-            );
-          })}
-          <Link href={localePath(locale, "/publications")} className="home-card">
-            <span className="t-kicker">{t.archive}</span>
-            <span className="home-card-title">{t.archiveTitle}</span>
-            <span className="home-card-cta">{t.open} <ArrowIcon /></span>
-          </Link>
+        <div className="home-section-head">
+          <h2 id="home-downloads" className="home-section-title">{t.downloads}</h2>
+          <Link href={localePath(locale, "/publications")} className="home-more">{t.allPublications} →</Link>
         </div>
+        {cards.length > 0 && (
+          <div className="home-cards">
+            {cards.map((card) => (
+              <a
+                key={card.key}
+                href={card.href}
+                className="home-card"
+                {...(card.download ? { download: true } : {})}
+                {...(card.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              >
+                <span className="t-kicker">{card.kicker}</span>
+                <span className={card.small ? "home-card-title home-card-title-small" : "home-card-title"}>{card.title}</span>
+                <span className="home-card-cta">{card.cta} <ArrowIcon download={card.download} /></span>
+              </a>
+            ))}
+          </div>
+        )}
       </section>
 
       <section className="home-map" aria-labelledby="home-map-title">

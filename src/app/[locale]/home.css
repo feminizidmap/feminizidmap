@@ -89,6 +89,17 @@
   line-height: 1.2;
 }
 
+/* Publication cards: the title is a full citation, so smaller and cut after five lines. */
+.home-card-title-small {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  overflow: hidden;
+  font-family: inherit;
+  font-size: 17px;
+  line-height: 1.45;
+}
+
 .home-card-cta {
   display: inline-flex;
   align-items: center;
