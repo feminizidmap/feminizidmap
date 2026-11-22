@@ -82,11 +82,14 @@ const dictionaries = {
     },
     map: {
       title: "Karte der Fälle",
-      lead: "Alle dokumentierten Fälle auf einer Karte – mit Filtern und Details zu jedem Fall.",
+      lead: "Alle dokumentierten Fälle auf einer Karte.",
     },
     database: {
       title: "Datenbank der Fälle",
       lead: "Alle dokumentierten Fälle als durchsuchbare Liste – mit Filtern und Details zu jedem Fall.",
+    },
+    // Period note above map and database (CasesPeriodNote)
+    casesData: {
       period: "Zeitraum",
       moreData: "Daten für Fälle weiterer Jahre (2019 bis heute) sind auf Anfrage verfügbar.",
     },
@@ -196,11 +199,13 @@ const dictionaries = {
     },
     map: {
       title: "Map of cases",
-      lead: "All documented cases on one map – with filters and details on every case.",
+      lead: "All documented cases on one map.",
     },
     database: {
       title: "Case database",
       lead: "All documented cases as a searchable list – with filters and details on every case.",
+    },
+    casesData: {
       period: "Period",
       moreData: "Data on cases from further years (2019 to today) is available on request.",
     },

@@ -236,6 +236,15 @@ h1, h2, h3, h4 {
   line-height: 1.55;
 }
 
+/* Extra line below the lead, e.g. the data period on map and database (CasesPeriodNote). */
+.page-header-note {
+  max-width: 48em;
+  margin: 0;
+  color: #f1e6f6;
+  font-size: 16px;
+  line-height: 1.55;
+}
+
 /* ---------- Navigation ---------- */
 .site-nav {
   display: flex;
