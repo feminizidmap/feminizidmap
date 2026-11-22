@@ -7,7 +7,7 @@ name: Deploy Next.js site to Pages
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: ["main", "the-new-website-launch"]
+    branches: ["main", "github-pages-deploy", "the-new-website-launch"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -29,8 +29,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-        NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
-        NEXT_PUBLIC_CASES_URL: ${{ secrets.NEXT_PUBLIC_CASES_URL }}
+        NEXT_PUBLIC_STRAPI_URL: ${{ vars.NEXT_PUBLIC_STRAPI_URL }}
+        STRAPI_API_TOKEN: ${{ secrets.STRAPI_API_TOKEN }}
+        NEXT_PUBLIC_CASES_URL: ${{ vars.NEXT_PUBLIC_CASES_URL }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -54,7 +55,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -76,8 +77,14 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+      # DEBUG: remove once the build gets its Strapi token. GitHub masks the secret, so a set token prints as ***.
+      - name: DEBUG Strapi token
+        run: |
+          echo "STRAPI_API_TOKEN=${STRAPI_API_TOKEN}"
+          echo "STRAPI_API_TOKEN length=${#STRAPI_API_TOKEN}"
+          echo "NEXT_PUBLIC_STRAPI_URL=${NEXT_PUBLIC_STRAPI_URL}"
       - name: Build with Next.js
-        run: ${{ steps.detect-package-manager.outputs.runner }} next build
+        run: ${{ steps.detect-package-manager.outputs.manager }} run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

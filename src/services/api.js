@@ -1,113 +1,79 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://api.feminizidmap.org";
-const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN;
+import { CONTENT_PATHS, STRAPI_URL, localizeUploads, strapiHeaders } from "./strapi.mjs";
 
-function unwrapEntity(entity) {
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
-  if (!entity) {
-    return entity;
+// Case snapshot from the build (scripts/fetch-media.mjs → public/data/cases.json), loaded in the browser.
+// Same origin, so the deployed site never calls the case API. Server components use readCasesSnapshot().
+export async function loadCases() {
+  const response = await fetch(`${BASE_PATH}/data/cases.json`);
+
+  if (!response.ok) {
+    throw new Error(`Case data error: ${response.status} ${response.statusText}`);
   }
 
-  if (entity.attributes) {
-    return {
-      id: entity.id,
-      ...entity.attributes,
-    };
-  }
-
-  return entity;
+  return response.json();
 }
 
-function unwrapRelation(relation) {  if (relation === null) {
+// GET a Strapi REST path and return its `data`. Returns null on 404 when `allowNotFound` is set.
+// Upload URLs are rewritten to the copies in the static site (scripts/fetch-media.mjs).
+async function strapiGet(path, { allowNotFound = false } = {}) {
+  const response = await fetch(`${STRAPI_URL}${path}`, { headers: strapiHeaders() });
+
+  if (allowNotFound && response.status === 404) {
     return null;
   }
-
-  if (relation === undefined) {
-    return undefined;
-  }
-
-  if (Array.isArray(relation)) {
-    return relation.map(unwrapEntity);
-  }
-
-  if (typeof relation === "object" && "data" in relation) {
-    if (relation.data === null) {
-      return null;
-    }
-
-    if (Array.isArray(relation.data)) {
-      return relation.data.map(unwrapEntity);
-    }
-
-    return unwrapEntity(relation.data);
-  }
-
-  return unwrapEntity(relation);
-}
-
-function normalizeCase(rawCase) {
-  const currentCase = unwrapEntity(rawCase);
-
-  if (!currentCase || typeof currentCase !== "object") {
-    return rawCase;
-  }
-
-  return {
-    ...currentCase,
-    //address: unwrapRelation(currentCase.address) ?? null,
-    crime: unwrapRelation(currentCase.crime) ?? null,
-    source: unwrapRelation(currentCase.source) ?? [],
-    perpetrators: unwrapRelation(currentCase.perpetrators) ?? [],
-    victims: unwrapRelation(currentCase.victims) ?? [],
-    authorities_involved: unwrapRelation(currentCase.authorities_involved) ?? [],
-    media_labels: unwrapRelation(currentCase.media_labels) ?? [],
-    media_labels_used: unwrapRelation(currentCase.media_labels_used) ?? [],
-    comments: unwrapRelation(currentCase.comments) ?? [],
-    report_of_crime: unwrapRelation(currentCase.report_of_crime) ?? null,
-  };
-}
-
-async function fetchWithAuth(endpoint, options = {}) {
-  const headers = {
-    "Content-Type": "application/json",
-    ...options.headers,
-  };
-
-  if (API_TOKEN) {
-    headers.Authorization = `Bearer ${API_TOKEN}`;
-  }
-
-  // const hasPopulate = /[?&]populate=/.test(endpoint);
-  // const separator = endpoint.includes("?") ? "&" : "?";
-  // const url = `${API_URL}${endpoint}${hasPopulate ? "" : `${separator}populate=*`}`;
-
-  const url = `${API_URL}${endpoint}`;
-
-  const response = await fetch(url, {
-    ...options,
-    headers,
-  });
 
   if (!response.ok) {
     throw new Error(`API error: ${response.status} ${response.statusText}`);
   }
 
-  const payload = await response.json();
+  const { data } = await response.json();
 
-  if (Array.isArray(payload?.data)) {
-    return {
-      ...payload,
-      data: payload.data.map(normalizeCase),
-    };
-  }
-
-  return payload;
+  return data ? localizeUploads(data, BASE_PATH) : null;
 }
 
-export async function getCasesPublic() {
-  return fetchWithAuth("/cases");
+// Single type with `title` + blocks `content` (home, about, faq, imprint, ...).
+async function getPage(path) {
+  const data = await strapiGet(path);
+
+  return data ? { title: data.title ?? null, content: data.content ?? null } : null;
 }
 
-export async function getCases(options = {}) {
-  const { populate = "*", pageSize = 100000 } = options;
-  return fetchWithAuth(`/cases?populate=${populate}&pagination[pageSize]=${pageSize}`);
+export function getHome(locale) {
+  return getPage(CONTENT_PATHS.home(locale));
+}
+
+export function getAbout(locale) {
+  return getPage(CONTENT_PATHS.about(locale));
+}
+
+export function getFaq(locale) {
+  return getPage(CONTENT_PATHS.faq(locale));
+}
+
+// Imprint and data protection are not localized (German only).
+export function getImprint() {
+  return getPage(CONTENT_PATHS.imprint());
+}
+
+export function getDataprotection() {
+  return getPage(CONTENT_PATHS.dataprotection());
+}
+
+export async function getReports(locale) {
+  return (await strapiGet(CONTENT_PATHS.reports(locale))) ?? [];
+}
+
+
+export async function getTeamMembers(locale) {
+  return (await strapiGet(CONTENT_PATHS.teamMembers(locale))) ?? [];
+}
+
+export async function getEvents(locale) {
+  return (await strapiGet(CONTENT_PATHS.events(locale))) ?? [];
+}
+
+// Publications are not localized.
+export async function getPublications() {
+  return (await strapiGet(CONTENT_PATHS.publications())) ?? [];
 }
