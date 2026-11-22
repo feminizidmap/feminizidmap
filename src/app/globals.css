@@ -6,6 +6,7 @@
   --plum: #63125e;
   --lilac: #f5eef8;
   --lilac-strong: #d9b3ff;
+  --draft: #f2c230; /* unpublished (draft) cases on the map, see map.js DRAFT_COLOR */
   --muted: #5c5c66;
   --text-soft: #2e2e36;
   --rule: #e6e1e9;

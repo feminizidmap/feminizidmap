@@ -50,7 +50,12 @@ const MOBILE_MAX_BOUNDS = [[-4.0, 36.0], [24.0, 62.0]];
 
 // Points with an open case, and clusters containing at least one, are drawn in lila and on top.
 const HAS_OPEN_CASE = ["any", ["==", ["get", "hasOpen"], true], ["==", ["get", "open"], true]];
-const MARKER_COLOR = ["case", HAS_OPEN_CASE, "#802993", "#000000"];
+// Unpublished cases (published_at null, preview data only) are yellow; so are clusters made only of them.
+const DRAFT_COLOR = "#f2c230"; // = --draft in globals.css
+const IS_DRAFT = ["any", ["==", ["get", "allDraft"], true], ["==", ["get", "draft"], true]];
+const MARKER_COLOR = ["case", HAS_OPEN_CASE, "#802993", IS_DRAFT, DRAFT_COLOR, "#000000"];
+// Cluster numbers: black on yellow, white otherwise.
+const CLUSTER_TEXT_COLOR = ["case", HAS_OPEN_CASE, "#ffffff", IS_DRAFT, "#000000", "#ffffff"];
 const MARKER_SORT_KEY = ["case", HAS_OPEN_CASE, 1, 0];
 
 // Any marker containing a selected case gets the ring, so the selection survives re-clustering on zoom.
@@ -177,6 +182,7 @@ export default function CasesMap({
             crime_date: caseItem.crime_date || "",
             city: caseItem?.crime?.crime_city || "",
             open: openCaseIds.has(id),
+            draft: !caseItem.published_at,
             selected: selection?.ids.has(id) ?? false,
           },
         };
@@ -265,6 +271,7 @@ export default function CasesMap({
         clusterRadius: 35,
         clusterProperties: {
           hasOpen: ["any", ["==", ["get", "open"], true]],
+          allDraft: ["all", ["==", ["get", "draft"], true]],
           hasSelected: ["any", ["==", ["get", "selected"], true]],
         },
       });
@@ -311,7 +318,7 @@ export default function CasesMap({
           "text-ignore-placement": true,
         },
         paint: {
-          "text-color": "#ffffff",
+          "text-color": CLUSTER_TEXT_COLOR,
         },
       });
 
