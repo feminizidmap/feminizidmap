@@ -21,7 +21,7 @@ const dev = process.argv.includes("--lenient");
 nextEnv.loadEnvConfig(root, dev);
 
 // Import after loading .env, so NEXT_PUBLIC_STRAPI_URL is set.
-const { CONTENT_PATHS, STRAPI_URL, UPLOADS_DIR, collectUploads, strapiHeaders } = await import("../src/services/strapi.mjs");
+const { CONTENT_PATHS, STRAPI_URL, UPLOADS_DIR, casesHeaders, collectUploads, strapiHeaders } = await import("../src/services/strapi.mjs");
 
 const LOCALES = ["de", "en"];
 const CASES_URL = process.env.NEXT_PUBLIC_CASES_URL || "https://api.feminizidmap.org/cases";
@@ -64,7 +64,10 @@ async function download({ source, file }) {
 // Write the case snapshot. On failure, a build aborts; dev keeps the previous snapshot if there is one.
 async function fetchCases() {
   try {
-    const response = await fetch(CASES_URL);
+    const response = await fetch(CASES_URL, { headers: casesHeaders(CASES_URL) });
+    if (response.status === 401 || response.status === 403) {
+      throw new Error(`${response.status} ${response.statusText} (check CASES_API_TOKEN and its find permission on the cases endpoint)`);
+    }
     if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
     const json = await response.json();
     if (!Array.isArray(json?.data)) throw new Error("response has no data array");

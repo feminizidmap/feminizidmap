@@ -34,9 +34,30 @@ public role can read the content. Then run `yarn build` and serve `out/` (e.g. `
 |---|---|
 | `NEXT_PUBLIC_STRAPI_URL` | Strapi base URL for content and uploads (default `https://backend.feminizidmap.org`) |
 | `STRAPI_API_TOKEN` | read-only token for content requests. Secret, never prefix with `NEXT_PUBLIC_` |
-| `NEXT_PUBLIC_CASES_URL` | full URL of the case dataset, read at build time only (default `https://api.feminizidmap.org/cases`) |
+| `NEXT_PUBLIC_CASES_URL` | full URL of the case dataset, read at build time only (default `https://api.feminizidmap.org/cases`). If it points to the Strapi host (`NEXT_PUBLIC_STRAPI_URL`), `CASES_API_TOKEN` is sent with it, otherwise never |
+| `CASES_API_TOKEN` | separate read-only token for the case request (demo only), e.g. `find` on `cases-public-preview`. Secret, never `NEXT_PUBLIC_` |
+| `NEXT_PUBLIC_NOINDEX` | `true` for demo builds: `noindex, nofollow` and `no-referrer` on every page |
 
 All of them are read at build time. Changing them later has no effect without a rebuild.
+
+## Preview/demo deployment (Vercel)
+
+A separate deployment that shows the preview dataset (2019–2026 incl. unpublished drafts) without going through the
+public API: the build reads the cases straight from Strapi with a token.
+
+| Variable | Value |
+|---|---|
+| `NEXT_PUBLIC_STRAPI_URL` | `https://backend.feminizidmap.org` |
+| `NEXT_PUBLIC_CASES_URL` | `https://backend.feminizidmap.org/api/cases-public-preview` |
+| `STRAPI_API_TOKEN` | website content token (`find` on the website types), as for prod |
+| `CASES_API_TOKEN` | case token: `find` on `cases-public-preview` only |
+| `NEXT_PUBLIC_NOINDEX` | `true` |
+
+Prerequisites outside this repo: nginx must let `GET /api/cases-public-preview` through on the backend vhost with a token,
+and the case token needs the permission in Strapi. Build command: `yarn build`, output directory: `out`.
+
+**The deployment itself is public.** The cases end up in `/data/cases.json` and in the database page, drafts included, so
+the obscure deployment URL is the only protection. Share it carefully, or enable Vercel Deployment Protection.
 
 ## Pitfalls
 

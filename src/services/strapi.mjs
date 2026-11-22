@@ -11,6 +11,19 @@ export function strapiHeaders() {
   return token ? { Authorization: `Bearer ${token}` } : {};
 }
 
+// Headers for the case dataset request, with its own token (CASES_API_TOKEN, e.g. find on cases-public-preview),
+// separate from the website content token. Only sent if the cases come from our own Strapi (a demo build reading
+// backend.feminizidmap.org/api/cases-public-preview directly), never to api.feminizidmap.org or any other host.
+export function casesHeaders(casesUrl) {
+  const token = process.env.CASES_API_TOKEN;
+  if (!token) return {};
+  try {
+    return new URL(casesUrl).host === new URL(STRAPI_URL).host ? { Authorization: `Bearer ${token}` } : {};
+  } catch {
+    return {};
+  }
+}
+
 // Strapi REST paths the site renders. scripts/fetch-media.mjs scans these for uploads.
 export const CONTENT_PATHS = {
   home: (locale) => `/api/home?locale=${locale}`,

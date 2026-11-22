@@ -1,3 +1,4 @@
+import { demoMetadata } from "@/app/demoMetadata";
 import { defaultLocale } from "@/i18n";
 
 // Separate root layout for "/" only: the static export has no server-side redirects,
@@ -6,6 +7,7 @@ const target = `${process.env.NEXT_PUBLIC_BASE_PATH || ""}/${defaultLocale}`;
 
 export const metadata = {
   title: "FeminizidMap.org",
+  ...demoMetadata,
 };
 
 export default function RootLayout({ children }) {

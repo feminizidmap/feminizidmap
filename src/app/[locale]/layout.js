@@ -3,6 +3,7 @@ import { Alegreya, IBM_Plex_Mono, Schibsted_Grotesk } from "next/font/google";
 import { notFound } from "next/navigation";
 import "@/app/globals.css";
 import LayoutShell from "@/app/LayoutShell";
+import { demoMetadata } from "@/app/demoMetadata";
 import { getDictionary, locales } from "@/i18n";
 
 // Alegreya and Schibsted Grotesk stand in for the old site's Blanco (serif) and Stabil (grotesk).
@@ -18,6 +19,7 @@ export function generateMetadata({ params: { locale } }) {
   return {
     title: "FeminizidMap.org",
     description: getDictionary(locale).meta.description,
+    ...demoMetadata,
   };
 }
 
