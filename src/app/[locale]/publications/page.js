@@ -52,9 +52,11 @@ function ReportCard({ report, locale, t }) {
   );
 }
 
+// Titles start with "Author (YYYY)."; the year is only in the title.
+const publicationYear = (item) => /\((\d{4})/.exec(item.title || "")?.[1];
+
 function PublicationRow({ item, t }) {
-  // Titles start with "Author (YYYY)."; show that year in its own column.
-  const year = /\((\d{4})/.exec(item.title || "")?.[1];
+  const year = publicationYear(item);
   return (
     <li className="pub-row">
       <span className="pub-year">{year}</span>
@@ -95,7 +97,12 @@ export default async function Page({ params: { locale } }) {
   const t = getDictionary(locale).publications;
   const [reportsResult, publicationsResult] = await Promise.allSettled([getReports(locale), getPublications()]);
   const reports = settledValue(reportsResult, "reports");
-  const publications = settledValue(publicationsResult, "publications");
+  // Newest first. Strapi returns publications in id order, and re-publishing an entry gives it a new id,
+  // so without sorting an edited entry jumps to the end. Same year keeps the Strapi order (stable sort),
+  // entries without a year go last.
+  const publications = settledValue(publicationsResult, "publications")
+    .slice()
+    .sort((a, b) => (publicationYear(b) ?? 0) - (publicationYear(a) ?? 0));
 
   // One group per category, in the dictionary's order. Unknown/missing categories land in
   // "miscellaneous" so an entry never disappears because the frontend lacks its translation.
