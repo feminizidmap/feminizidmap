@@ -102,7 +102,7 @@ const dictionaries = {
     publications: {
       title: "Publikationen",
       lead: "Unsere Reports, Artikel, Interviews und Vorträge zu Femi(ni)ziden in Deutschland.",
-      reports: "Offizielle Berichte zu Feminiziden in Deutschland",
+      reports: "Jahresberichte zu Femi(ni)ziden in Deutschland",
       reportsEmpty: "Noch keine Reports verfügbar.",
       published: "Veröffentlicht am",
       other: "Veröffentlichungen",
@@ -214,7 +214,7 @@ const dictionaries = {
     publications: {
       title: "Publications",
       lead: "Our reports, articles, interviews and talks on femi(ni)cides in Germany.",
-      reports: "Official reports on feminicides in Germany",
+      reports: "Annual reports on femi(ni)cides in Germany",
       reportsEmpty: "No reports available yet.",
       published: "Published",
       other: "Other publications",
