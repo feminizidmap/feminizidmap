@@ -119,3 +119,10 @@
     font-size: 1.35rem;
   }
 }
+
+/* Period covered by the data + note on further years, above the case list. */
+.database-intro {
+  margin: 0;
+  padding: 2rem 2.5rem 0;
+  font-size: 1.25rem;
+}

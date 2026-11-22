@@ -87,6 +87,8 @@ const dictionaries = {
     database: {
       title: "Datenbank der Fälle",
       lead: "Alle dokumentierten Fälle als durchsuchbare Liste – mit Filtern und Details zu jedem Fall.",
+      period: "Zeitraum",
+      moreData: "Daten für Fälle weiterer Jahre (2019 bis heute) sind auf Anfrage verfügbar.",
     },
     events: {
       title: "Veranstaltungen",
@@ -199,6 +201,8 @@ const dictionaries = {
     database: {
       title: "Case database",
       lead: "All documented cases as a searchable list – with filters and details on every case.",
+      period: "Period",
+      moreData: "Data on cases from further years (2019 to today) is available on request.",
     },
     events: {
       title: "Events",
