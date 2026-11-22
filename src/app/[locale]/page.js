@@ -14,6 +14,9 @@ function linkOnly(block) {
   return parts.length === 1 && parts[0].type === "link";
 }
 
+// Card fallbacks are plain <a> (they may also be file downloads), so they need the base path themselves.
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
 const CARD_COUNT = 4;
 const MAX_REPORT_CARDS = 2;
 
@@ -25,7 +28,7 @@ function downloadCards({ reports, publications, locale, t }) {
       key: `report-${report.documentId}`,
       kicker: [t.reportKicker, report.report_year].filter(Boolean).join(" "),
       title: report.title,
-      href: file?.url ?? localePath(locale, "/publications#reports"),
+      href: file?.url ?? `${BASE_PATH}${localePath(locale, "/publications#reports")}`,
       download: Boolean(file),
       cta: file ? t.download : t.open,
     };
@@ -42,7 +45,7 @@ function downloadCards({ reports, publications, locale, t }) {
         kicker: [item.tags?.[0]?.label, publicationYear(item)].filter(Boolean).join(" · "),
         title: item.title,
         small: true,
-        href: url ?? localePath(locale, "/publications#publications"),
+        href: url ?? `${BASE_PATH}${localePath(locale, "/publications#publications")}`,
         external: Boolean(url),
         cta: t.open,
       };

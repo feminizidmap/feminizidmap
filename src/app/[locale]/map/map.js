@@ -18,6 +18,9 @@ import { facetLabels, rangeLabel, statesLabel } from "./filterUtils";
 
 let protocolRegistered = false;
 
+// Static map assets live in public/, so they need the base path (GitHub Pages repo path, secret demo path).
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
 // Empty MapLibre control; React renders its content through a portal.
 class PortalControl {
   constructor(className) {
@@ -95,7 +98,7 @@ function getCoordinates(caseItem) {
 
 export default function CasesMap({
   language = "de",
-  pmtilesUrl = "/germany9.pmtiles",
+  pmtilesUrl = `${BASE_PATH}/germany9.pmtiles`,
 }) {
   const [cases, setCases] = useState([]);
   const [status, setStatus] = useState("loading");
@@ -223,7 +226,7 @@ export default function CasesMap({
       center: DESKTOP_HOME.center,
       style: {
         version: 8,
-        glyphs: '/basemaps-assets-main/fonts/{fontstack}/{range}.pbf',
+        glyphs: `${window.location.origin}${BASE_PATH}/basemaps-assets-main/fonts/{fontstack}/{range}.pbf`,
         sources: {
           protomaps: {
             type: "vector",
@@ -232,7 +235,7 @@ export default function CasesMap({
           },
           "germany-outline": {
             type: "geojson",
-            data: "/germany-outline.geojson",
+            data: `${BASE_PATH}/germany-outline.geojson`,
           },
         },
         layers: layers("protomaps", namedFlavor("white"), { lang: languageRef.current }).map((layer) => {
