@@ -113,8 +113,8 @@ const dictionaries = {
       // Keyed by the Strapi `category` enum value; key order = order on the page.
       categories: {
         feminizidmap_team: "Gemeinsame Veröffentlichungen des Teams",
-        external_using_our_data: "Externe Publikationen mit Nutzung von Feminizidmap-Daten",
         miscellaneous: "Weitere Veröffentlichungen",
+        external_using_our_data: "Externe Publikationen mit Nutzung von Feminizidmap-Daten",
       },
       empty: "Noch keine Veröffentlichungen verfügbar.",
       link: "Link",
@@ -227,8 +227,8 @@ const dictionaries = {
       other: "Other publications",
       categories: {
         feminizidmap_team: "Publications by the Feminizidmap team",
-        external_using_our_data: "External publications using Feminizidmap data",
         miscellaneous: "Further publications",
+        external_using_our_data: "External publications using Feminizidmap data",
       },
       empty: "No publications available yet.",
       link: "Link",
