@@ -15,40 +15,84 @@ function linkOnly(block) {
 }
 
 const CARD_COUNT = 4;
-const MAX_REPORT_CARDS = 2;
+const REPORT_YEARS = 2;
+const REPORT_LOCALES = ["de", "en"];
 
-// Up to two newest reports, filled up with the newest non-report publications to four cards.
-function downloadCards({ reports, publications, locale, t }) {
-  const reportCards = reports.slice(0, MAX_REPORT_CARDS).map((report) => {
-    const file = report.report_files?.find((entry) => entry.file?.url)?.file;
-    return {
-      key: `report-${report.documentId}`,
-      kicker: [t.reportKicker, report.report_year].filter(Boolean).join(" "),
-      title: report.title,
-      href: file?.url ?? localePath(locale, "/publications#reports"),
-      download: Boolean(file),
-      cta: file ? t.download : t.open,
-    };
-  });
+// A report file whose title names a press release ("Pressemitteilung", "Press release").
+const isPressRelease = (entry) => /press/i.test(entry.title ?? "");
 
-  const isReport = (item) => item.tags?.some((tag) => tag.label?.trim().toLowerCase() === "report");
-  const publicationCards = sortByYearDesc(publications)
-    .filter((item) => !isReport(item))
-    .slice(0, CARD_COUNT - reportCards.length)
-    .map((item) => {
-      const url = item.links?.find((link) => link.url)?.url;
-      return {
-        key: `publication-${item.documentId}`,
-        kicker: [item.tags?.[0]?.label, publicationYear(item)].filter(Boolean).join(" · "),
-        title: item.title,
-        small: true,
-        href: url ?? localePath(locale, "/publications#publications"),
-        external: Boolean(url),
-        cta: t.open,
-      };
-    });
+// Row 1, identical in both locales: every file of the two newest report years, newest year first.
+// Within a year: the reports (German, then English), then the press releases. At most four cards.
+// Reports are localized in Strapi, so both locales are fetched; a locale without a file for a year
+// (e.g. no English 2024 report) simply adds nothing.
+function reportCards({ reportsByLocale, t }) {
+  const entries = REPORT_LOCALES.flatMap((lang) =>
+    (reportsByLocale[lang] ?? []).flatMap((report) =>
+      (report.report_files ?? [])
+        .filter((entry) => entry.file?.url)
+        .map((entry) => ({ lang, report, entry, press: isPressRelease(entry) }))
+    )
+  );
+  const years = [...new Set(entries.map((item) => item.report.report_year).filter(Boolean))]
+    .sort((a, b) => b - a)
+    .slice(0, REPORT_YEARS);
 
-  return [...reportCards, ...publicationCards];
+  return years
+    .flatMap((year) => {
+      const ofYear = entries.filter((item) => item.report.report_year === year);
+      return [...ofYear.filter((item) => !item.press), ...ofYear.filter((item) => item.press)];
+    })
+    .slice(0, CARD_COUNT)
+    .map(({ lang, report, entry, press }) => ({
+      key: `report-${lang}-${entry.id ?? entry.file.url}`,
+      kicker: `${press ? t.pressKicker : t.reportKicker} ${report.report_year}`,
+      lang,
+      title: press ? entry.title : report.title,
+      href: entry.file.url,
+      download: true,
+      cta: t.download,
+    }));
+}
+
+// Row 2: the four newest publications that have a link, from every category.
+function publicationCards({ publications, t }) {
+  return sortByYearDesc(publications)
+    .map((item) => ({ item, url: item.links?.find((link) => link.url)?.url }))
+    .filter(({ url }) => url)
+    .slice(0, CARD_COUNT)
+    .map(({ item, url }) => ({
+      key: `publication-${item.documentId}`,
+      kicker: [item.tags?.[0]?.label, publicationYear(item)].filter(Boolean).join(" · "),
+      title: item.title,
+      small: true,
+      href: url,
+      external: true,
+      cta: t.open,
+    }));
+}
+
+function CardGrid({ cards, publication = false }) {
+  return (
+    <div className="home-cards">
+      {cards.map((card) => (
+        <a
+          key={card.key}
+          href={card.href}
+          className={publication ? "home-card home-card-publication" : "home-card"}
+          {...(card.lang ? { hrefLang: card.lang } : {})}
+          {...(card.download ? { download: true } : {})}
+          {...(card.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+        >
+          <span className="t-kicker home-card-kicker">
+            {card.kicker}
+            {card.lang && <span className="home-card-lang">{card.lang.toUpperCase()}</span>}
+          </span>
+          <span className={card.small ? "home-card-title home-card-title-small" : "home-card-title"}>{card.title}</span>
+          <span className="home-card-cta">{card.cta} <ArrowIcon download={card.download} /></span>
+        </a>
+      ))}
+    </div>
+  );
 }
 
 function ArrowIcon({ download }) {
@@ -67,26 +111,26 @@ function nextEvent(events) {
 export default async function Page({ params: { locale } }) {
   const dict = getDictionary(locale);
   const t = dict.home;
-  const [homeResult, eventsResult, reportsResult, publicationsResult] = await Promise.allSettled([
+  const [homeResult, eventsResult, reportsDeResult, reportsEnResult, publicationsResult] = await Promise.allSettled([
     getHome(locale),
     getEvents(locale),
-    getReports(locale),
+    getReports("de"),
+    getReports("en"),
     getPublications(),
   ]);
   if (homeResult.status === "rejected") console.error("Failed to load home content", homeResult.reason);
   if (eventsResult.status === "rejected") console.error("Failed to load events", eventsResult.reason);
-  if (reportsResult.status === "rejected") console.error("Failed to load reports", reportsResult.reason);
+  for (const result of [reportsDeResult, reportsEnResult]) {
+    if (result.status === "rejected") console.error("Failed to load reports", result.reason);
+  }
   if (publicationsResult.status === "rejected") console.error("Failed to load publications", publicationsResult.reason);
 
   const home = homeResult.status === "fulfilled" ? homeResult.value : null;
   const event = nextEvent(eventsResult.status === "fulfilled" ? eventsResult.value : []);
   const text = (home?.content ?? []).filter((block) => !linkOnly(block));
-  const cards = downloadCards({
-    reports: reportsResult.status === "fulfilled" ? reportsResult.value : [],
-    publications: publicationsResult.status === "fulfilled" ? publicationsResult.value : [],
-    locale,
-    t,
-  });
+  const settled = (result) => (result.status === "fulfilled" ? result.value : []);
+  const reports = reportCards({ reportsByLocale: { de: settled(reportsDeResult), en: settled(reportsEnResult) }, t });
+  const publications = publicationCards({ publications: settled(publicationsResult), t });
   const date = event && new Date(`${event.start_date}T00:00:00Z`);
   const intl = locale === "en" ? "en-GB" : "de-DE";
   const fmt = (options) => new Intl.DateTimeFormat(intl, { timeZone: "UTC", ...options }).format(date);
@@ -108,23 +152,14 @@ export default async function Page({ params: { locale } }) {
           <h2 id="home-downloads" className="home-section-title">{t.downloads}</h2>
           <Link href={localePath(locale, "/publications")} className="home-more">{t.allPublications} →</Link>
         </div>
-        {cards.length > 0 && (
-          <div className="home-cards">
-            {cards.map((card) => (
-              <a
-                key={card.key}
-                href={card.href}
-                className="home-card"
-                {...(card.download ? { download: true } : {})}
-                {...(card.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-              >
-                <span className="t-kicker">{card.kicker}</span>
-                <span className={card.small ? "home-card-title home-card-title-small" : "home-card-title"}>{card.title}</span>
-                <span className="home-card-cta">{card.cta} <ArrowIcon download={card.download} /></span>
-              </a>
-            ))}
-          </div>
-        )}
+        {reports.length > 0 && <>
+          <h3 className="home-cards-title">{t.reportsRow}</h3>
+          <CardGrid cards={reports} />
+        </>}
+        {publications.length > 0 && <>
+          <h3 className="home-cards-title">{t.publicationsRow}</h3>
+          <CardGrid cards={publications} publication />
+        </>}
       </section>
 
       <section className="home-map" aria-labelledby="home-map-title">
